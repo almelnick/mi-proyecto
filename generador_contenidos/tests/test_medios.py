@@ -100,6 +100,6 @@ def test_video_con_voz_alarga_la_escena_y_lleva_audio(tmp_path):
     video = armar_video(laminas, tmp_path / "video.mp4", audios)
     info = _info(video)
 
-    # Escena 1: 0.2 + 6.0 + 0.4 + 0.5 = 7.1 s; escenas 2 y 3: 3.5 s; menos dos fundidos de 0.5 s.
-    assert "Duration: 00:00:13.1" in info
+    # Escena 1: 0.2 + 6.0 + 0.4 + 0.5 = 7.1 s; escenas 2 y 3: 4.0 s; menos dos transiciones de 0.5 s.
+    assert "Duration: 00:00:14.1" in info
     assert "Audio: aac" in info

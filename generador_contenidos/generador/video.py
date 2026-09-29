@@ -7,8 +7,9 @@ import imageio_ffmpeg
 
 from .voz import duracion
 
-SEGUNDOS_POR_ESCENA = 3.5
+SEGUNDOS_POR_ESCENA = 4.0
 TRANSICION = 0.5
+TIPO_TRANSICION = "smoothleft"
 FPS = 30
 PAUSA_ANTES_DE_HABLAR = 0.2
 PAUSA_DESPUES_DE_HABLAR = 0.4
@@ -26,12 +27,25 @@ def duraciones_por_escena(audios: list[Path | None] | None, escenas: int) -> lis
     ]
 
 
-def armar_video(laminas: list[Path], destino: Path, audios: list[Path | None] | None = None) -> Path:
-    """Une las láminas con un zoom suave y fundidos; si hay voz en off, la sincroniza por escena."""
+def armar_video(
+    laminas: list[Path],
+    destino: Path,
+    audios: list[Path | None] | None = None,
+    clips: list[Path] | None = None,
+) -> Path:
+    """Une las escenas con fundidos; si hay voz en off, la sincroniza por escena.
+
+    Con `clips` (escenas animadas ya grabadas) los usa tal cual; si no, anima cada lámina fija
+    con un zoom suave.
+    """
     ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
     duraciones = duraciones_por_escena(audios, len(laminas))
     entradas, filtros = [], []
     for i, lamina in enumerate(laminas):
+        if clips:
+            entradas += ["-i", str(clips[i])]
+            filtros.append(f"[{i}:v]fps={FPS},format=yuv420p,setsar=1[v{i}]")
+            continue
         # Una sola imagen por entrada: zoompan genera por sí mismo los cuadros de la escena.
         entradas += ["-i", str(lamina)]
         cuadros = round(duraciones[i] * FPS)
@@ -47,7 +61,7 @@ def armar_video(laminas: list[Path], destino: Path, audios: list[Path | None] | 
     for i in range(1, len(laminas)):
         salida = f"x{i}"
         filtros.append(
-            f"[{ultimo}][v{i}]xfade=transition=fade:duration={TRANSICION}:offset={inicios[i]:.3f}[{salida}]"
+            f"[{ultimo}][v{i}]xfade=transition={TIPO_TRANSICION}:duration={TRANSICION}:offset={inicios[i]:.3f}[{salida}]"
         )
         ultimo = salida
 

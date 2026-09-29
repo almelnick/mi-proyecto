@@ -1,0 +1,79 @@
+{
+  "gancho": "Qué es GEO y por qué tu marca tiene que aparecer en las respuestas de la IA.",
+  "slides": [
+    {
+      "tipo": "portada",
+      "etiqueta": "SEO con IA",
+      "dato": "",
+      "items": [],
+      "antes": "",
+      "despues": "",
+      "titulo": "¿La IA recomienda tu marca?",
+      "texto": "",
+      "locucion": "Cuando alguien le pregunta a la IA por lo que vendes, ¿aparece tu marca?",
+      "imagen": "Persona escribiendo una pregunta en un chat de IA en su celular."
+    },
+    {
+      "tipo": "texto",
+      "etiqueta": "",
+      "dato": "",
+      "items": [],
+      "antes": "",
+      "despues": "",
+      "titulo": "La búsqueda cambió",
+      "texto": "Cada vez más personas buscan en ChatGPT, Gemini y AI Overviews antes que en Google.",
+      "locucion": "Cada vez más personas buscan en ChatGPT, Gemini y los AI Overviews antes que en Google.",
+      "imagen": "Notebook con un buscador abierto."
+    },
+    {
+      "tipo": "lista",
+      "etiqueta": "",
+      "dato": "",
+      "items": [
+        "Google y AI Overviews",
+        "ChatGPT",
+        "Gemini",
+        "Perplexity"
+      ],
+      "antes": "",
+      "despues": "",
+      "titulo": "Dónde tiene que estar tu marca",
+      "texto": "",
+      "locucion": "Tu marca tiene que estar en Google, en los AI Overviews, en ChatGPT, en Gemini y en Perplexity.",
+      "imagen": "Varias pantallas con resultados de búsqueda."
+    },
+    {
+      "tipo": "cita",
+      "etiqueta": "",
+      "dato": "",
+      "items": [],
+      "antes": "",
+      "despues": "",
+      "titulo": "GEO no es un servicio aparte: va desde el diagnóstico.",
+      "texto": "Método Sprint",
+      "locucion": "Por eso trabajamos GEO desde el diagnóstico, no como un servicio aparte.",
+      "imagen": "Equipo revisando un diagnóstico."
+    },
+    {
+      "tipo": "cierre",
+      "etiqueta": "",
+      "dato": "",
+      "items": [],
+      "antes": "",
+      "despues": "",
+      "titulo": "Que la IA también te cite",
+      "texto": "Conoce cómo trabajamos SEO con IA.",
+      "locucion": "Conoce cómo trabajamos SEO con IA en sprintlatam punto com.",
+      "imagen": "Oficina moderna en Santiago."
+    }
+  ],
+  "caption": "Tus clientes ya no solo buscan en Google: también le preguntan a ChatGPT, Gemini y Perplexity. GEO (Generative Engine Optimization) es lograr que esas respuestas citen tu marca. En Sprint lo trabajamos desde el diagnóstico, no como un servicio aparte.",
+  "cta": "sprintlatam.com/agencia-seo/geo",
+  "hashtags": [
+    "#SprintLATAM",
+    "#GEO",
+    "#SEO",
+    "#IA",
+    "#MarketingDigital"
+  ]
+}

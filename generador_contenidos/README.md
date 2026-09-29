@@ -20,7 +20,7 @@ Crea imágenes, carruseles y videos cortos para redes sociales que respetan el t
    - `cita`: frase destacada; `cierre`: llamado a la acción como botón.
 
    Con fondo generado con IA, la foto queda arriba y el texto abajo sobre un degradado del color de la marca.
-6. **Video**: une las láminas en un MP4 vertical con zoom suave y transiciones. Con `--voz`, ElevenLabs lee el guion de locución y cada escena dura lo necesario para que la frase termine antes del cambio.
+6. **Video**: graba cada escena con animaciones de entrada (textos que suben, cifras que aparecen con impulso, barras que crecen, botón que salta, brillos que se desplazan) y las une en un MP4 vertical con transiciones de deslizamiento. Con `--video-simple` usa láminas fijas con zoom suave, que es más rápido. Con `--voz`, ElevenLabs lee el guion de locución y cada escena dura lo necesario para que la frase termine antes del cambio.
 
 ## Instalación
 

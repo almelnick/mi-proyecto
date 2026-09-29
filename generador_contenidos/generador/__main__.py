@@ -28,6 +28,9 @@ def main() -> None:
     parser.add_argument(
         "--voz", action="store_true", help="Agrega voz en off al video con el guion de locución (ElevenLabs)."
     )
+    parser.add_argument(
+        "--video-simple", action="store_true", help="Video con láminas fijas y zoom, sin animaciones (más rápido)."
+    )
     args = parser.parse_args()
     pieza = Pieza.model_validate_json(args.pieza.read_text(encoding="utf-8")) if args.pieza else None
     if pieza is None and not args.tema:
@@ -46,6 +49,7 @@ def main() -> None:
         imagenes_ia=args.imagenes_ia,
         voz=args.voz,
         pieza=pieza,
+        animar=not args.video_simple,
     )
     print(f"Listo. Archivos en: {carpeta}")
 

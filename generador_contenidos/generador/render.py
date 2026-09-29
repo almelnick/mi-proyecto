@@ -2,10 +2,14 @@
 
 import base64
 import mimetypes
+import shutil
+import subprocess
+import tempfile
 import os
 import re
 from pathlib import Path
 
+import imageio_ffmpeg
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from playwright.sync_api import sync_playwright
 
@@ -47,7 +51,15 @@ def _barras(antes: str, despues: str, alto_max: int) -> tuple[int, int] | None:
     return max(24, round(alto_max * a / tope)), max(24, round(alto_max * d / tope))
 
 
-def _html(marca: Marca, pieza: Pieza, formato: Formato, indice: int, fondo: Path | None = None) -> str:
+def _html(
+    marca: Marca,
+    pieza: Pieza,
+    formato: Formato,
+    indice: int,
+    fondo: Path | None = None,
+    animar: bool = False,
+    duracion: float = 0,
+) -> str:
     ancho, alto = TAMANOS[formato]
     slide = pieza.slides[indice - 1]
     largo = len(slide.titulo)
@@ -63,6 +75,8 @@ def _html(marca: Marca, pieza: Pieza, formato: Formato, indice: int, fondo: Path
         barras=_barras(slide.antes, slide.despues, alto_grafico),
         cta=pieza.cta,
         es_carrusel=formato == "carrusel",
+        animar=animar,
+        duracion=duracion,
         e=marca.estilo_visual,
         marca=marca.nombre,
         logo=_embebido(marca.ruta_logo()),
@@ -104,3 +118,44 @@ def renderizar(
             archivos.append(destino)
         navegador.close()
     return archivos
+
+
+# Pone todas las animaciones CSS en el mismo instante para capturar un cuadro exacto.
+_FIJAR_TIEMPO = "t => document.getAnimations().forEach(a => { a.pause(); a.currentTime = t; })"
+
+
+def renderizar_animado(
+    marca: Marca,
+    pieza: Pieza,
+    carpeta: Path,
+    duraciones: list[float],
+    fondos: list[Path] | None = None,
+    fps: int = 30,
+) -> list[Path]:
+    """Graba un clip MP4 por escena con las animaciones de entrada de la plantilla."""
+    carpeta.mkdir(parents=True, exist_ok=True)
+    ancho, alto = TAMANOS["video"]
+    ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+    clips = []
+    with sync_playwright() as p:
+        navegador = _lanzar(p)
+        pagina = navegador.new_page(viewport={"width": ancho, "height": alto})
+        for i, duracion in enumerate(duraciones, 1):
+            fondo = fondos[i - 1] if fondos else None
+            pagina.set_content(_html(marca, pieza, "video", i, fondo, animar=True, duracion=duracion), wait_until="load")
+            cuadros = Path(tempfile.mkdtemp(prefix="cuadros_"))
+            try:
+                for n in range(round(duracion * fps)):
+                    pagina.evaluate(_FIJAR_TIEMPO, n * 1000 / fps)
+                    pagina.screenshot(path=str(cuadros / f"{n:05d}.jpg"), type="jpeg", quality=92)
+                clip = carpeta / f"escena_{i:02d}.mp4"
+                subprocess.run(
+                    [ffmpeg, "-y", "-loglevel", "error", "-framerate", str(fps), "-i", str(cuadros / "%05d.jpg"),
+                     "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "18", str(clip)],
+                    check=True,
+                )
+                clips.append(clip)
+            finally:
+                shutil.rmtree(cuadros, ignore_errors=True)
+        navegador.close()
+    return clips

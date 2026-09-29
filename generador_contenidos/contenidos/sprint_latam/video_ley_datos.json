@@ -1,0 +1,91 @@
+{
+  "gancho": "La Ley 21.719 cambia las reglas del marketing en Chile desde el 1 de diciembre de 2026.",
+  "slides": [
+    {
+      "tipo": "portada",
+      "etiqueta": "Ley 21.719",
+      "dato": "",
+      "items": [],
+      "antes": "",
+      "despues": "",
+      "titulo": "Tu marketing tiene fecha límite",
+      "texto": "Desde el 1 de diciembre de 2026 rige la nueva ley de protección de datos personales en Chile.",
+      "locucion": "Tu marketing tiene fecha límite: desde el uno de diciembre rige la Ley veintiún mil setecientos diecinueve de protección de datos.",
+      "imagen": "Calendario de escritorio junto a un notebook con un dashboard desenfocado."
+    },
+    {
+      "tipo": "texto",
+      "etiqueta": "Qué cambia",
+      "dato": "",
+      "items": [],
+      "antes": "",
+      "despues": "",
+      "titulo": "Sin base legal, es infracción",
+      "texto": "Tratar datos personales sin una base legal válida lo fiscalizará la nueva Agencia de Protección de Datos Personales.",
+      "locucion": "Tratar datos personales sin una base legal válida pasa a ser una infracción fiscalizada.",
+      "imagen": "Formulario web en una pantalla, vista de cerca."
+    },
+    {
+      "tipo": "lista",
+      "etiqueta": "",
+      "dato": "",
+      "items": [
+        "Formularios y casillas de consentimiento",
+        "Tus bases de contacto",
+        "Remarketing y píxeles",
+        "Lo que hacen tus proveedores"
+      ],
+      "antes": "",
+      "despues": "",
+      "titulo": "Qué tienes que revisar",
+      "texto": "",
+      "locucion": "Revisa tus formularios, tus bases de contacto, tu remarketing y tus píxeles.",
+      "imagen": "Mano marcando una casilla en un formulario en una tablet."
+    },
+    {
+      "tipo": "dato",
+      "etiqueta": "Multas",
+      "dato": "20.000 UTM",
+      "items": [],
+      "antes": "",
+      "despues": "",
+      "titulo": "Máximo por infracción",
+      "texto": "Y hasta el 4 % de los ingresos si hay reincidencia.",
+      "locucion": "Las multas llegan a veinte mil UTM por infracción, y hasta el cuatro por ciento de los ingresos si hay reincidencia.",
+      "imagen": "Reunión de directorio revisando documentos."
+    },
+    {
+      "tipo": "cita",
+      "etiqueta": "",
+      "dato": "",
+      "items": [],
+      "antes": "",
+      "despues": "",
+      "titulo": "Tu empresa responde también por lo que hacen tus proveedores con los datos.",
+      "texto": "Ley 21.719",
+      "locucion": "Y ojo: tu empresa también responde por lo que hacen tus proveedores con los datos.",
+      "imagen": "Equipo revisando integraciones en varias pantallas."
+    },
+    {
+      "tipo": "cierre",
+      "etiqueta": "",
+      "dato": "",
+      "items": [],
+      "antes": "",
+      "despues": "",
+      "titulo": "Revisa tu política de privacidad gratis",
+      "texto": "Un primer paso concreto antes del 1 de diciembre.",
+      "locucion": "Revisa gratis tu política de privacidad en sprintlatam punto com.",
+      "imagen": "Oficina moderna en Santiago con luz natural."
+    }
+  ],
+  "caption": "La nueva ley de datos no es solo un tema legal: toca tus formularios, tus bases de contacto, tu remarketing y tus píxeles. Desde el 1 de diciembre de 2026, el consentimiento tiene que ser explícito e informado, y tu empresa responde también por lo que hacen tus proveedores con los datos. Te dejamos lo esencial en 6 láminas.",
+  "cta": "sprintlatam.com/ley-datos",
+  "hashtags": [
+    "#SprintLATAM",
+    "#Ley21719",
+    "#ProteccionDeDatos",
+    "#MarketingDigital",
+    "#Chile"
+  ]
+}

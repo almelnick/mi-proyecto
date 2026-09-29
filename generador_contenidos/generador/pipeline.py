@@ -9,8 +9,8 @@ from pathlib import Path
 from . import evaluador, redactor
 from .marca import Marca
 from .modelos import Formato, Pieza, Red, Resultado
-from .render import renderizar
-from .video import armar_video
+from .render import renderizar, renderizar_animado
+from .video import armar_video, duraciones_por_escena
 
 MAX_RONDAS = 2
 
@@ -63,6 +63,7 @@ def generar(
     imagenes_ia: bool = False,
     voz: bool = False,
     pieza: Pieza | None = None,
+    animar: bool = True,
 ) -> Path:
     if pieza is not None:
         resultados = [Resultado(pieza=pieza)]
@@ -87,7 +88,11 @@ def generar(
             from .voz import locutar
 
             audios = locutar(marca, elegida.pieza, carpeta / "voz")
-        armar_video(laminas, carpeta / "video.mp4", audios)
+        clips = None
+        if animar:
+            duraciones = duraciones_por_escena(audios, len(laminas))
+            clips = renderizar_animado(marca, elegida.pieza, carpeta / "escenas", duraciones, fondos)
+        armar_video(laminas, carpeta / "video.mp4", audios, clips)
 
     (carpeta / "publicacion.md").write_text(_texto_publicacion(elegida, formato, revision), encoding="utf-8")
     informe = {
