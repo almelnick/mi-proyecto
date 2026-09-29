@@ -17,9 +17,12 @@ class EstiloVisual(BaseModel):
     color_texto: str = "#FFFFFF"
     color_acento: str = "#F2A541"
     color_secundario: str = "#E8E1D5"
+    color_acento_2: str | None = None  # segundo acento para detalles (líneas, etiquetas, datos)
     fuente_titulos: str = "Georgia"
     fuente_texto: str = "Helvetica"
     logo: str | None = None  # ruta relativa al YAML de la marca
+    # Tipografías propias: nombre de la familia -> archivo (woff2/ttf/otf) relativo al YAML.
+    archivos_fuentes: dict[str, str] = Field(default_factory=dict)
     estilo_imagenes: str = "Fotografía natural, luz suave, composición limpia."
 
 
@@ -55,6 +58,12 @@ class Marca(BaseModel):
             return None
         ruta = (self.carpeta / self.estilo_visual.logo).resolve()
         return ruta if ruta.exists() else None
+
+    def rutas_fuentes(self) -> dict[str, Path]:
+        if self.carpeta is None:
+            return {}
+        rutas = {familia: (self.carpeta / archivo).resolve() for familia, archivo in self.estilo_visual.archivos_fuentes.items()}
+        return {familia: ruta for familia, ruta in rutas.items() if ruta.exists()}
 
     def resumen_para_ia(self) -> dict:
         """Datos de la marca que se envían a los modelos (sin estilo visual)."""

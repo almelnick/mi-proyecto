@@ -1,5 +1,5 @@
 # Kit de marca de Sprint LATAM, armado a partir de www.sprintlatam.com (septiembre 2026).
-# Los colores y tipografías son provisorios: reemplazarlos por los del manual de marca.
+# Colores, tipografías y logo tomados del CSS y del encabezado del sitio.
 nombre: Sprint LATAM
 descripcion: >
   Agencia de marketing digital en Chile que convierte marketing en crecimiento medible:
@@ -63,13 +63,17 @@ ejemplos:
   - "No vendemos horas, vendemos un sistema."
 
 estilo_visual:
-  color_fondo: "#0E1116"
-  color_texto: "#FFFFFF"
-  color_acento: "#3B82F6"
-  color_secundario: "#C7CDD6"
-  fuente_titulos: Helvetica
-  fuente_texto: Helvetica
-  logo: null
+  color_fondo: "#040A14"
+  color_texto: "#FBFAF7"
+  color_acento: "#F2F200"      # amarillo de los botones "Hablemos"
+  color_acento_2: "#0089ED"    # azul de acento y brillos
+  color_secundario: "#A7B2C1"
+  fuente_titulos: Space Grotesk
+  fuente_texto: Plus Jakarta Sans
+  logo: logo.png
+  archivos_fuentes:
+    Space Grotesk: fuentes/space-grotesk-latin-wght-normal.woff2
+    Plus Jakarta Sans: fuentes/plus-jakarta-sans-latin-wght-normal.woff2
   estilo_imagenes: >
     Fotografía editorial corporativa y sobria: equipos trabajando con datos, pantallas con
     dashboards desenfocados, oficinas modernas en Santiago, luz natural, tonos fríos y

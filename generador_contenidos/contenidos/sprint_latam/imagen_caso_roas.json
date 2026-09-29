@@ -2,8 +2,14 @@
   "gancho": "Un ecommerce de tecnología pasó de ROAS 3 a 10 en Meta Ads en 60 días.",
   "slides": [
     {
-      "titulo": "ROAS de 3 a 10 en 60 días",
-      "texto": "Ecommerce de tecnología en Meta Ads: ángulos creativos, audiencias lookalike y campañas por producto.",
+      "tipo": "comparacion",
+      "etiqueta": "Caso · Meta Ads",
+      "dato": "",
+      "items": [],
+      "antes": "3",
+      "despues": "10",
+      "titulo": "ROAS en 60 días",
+      "texto": "Ecommerce de tecnología: ángulos creativos, audiencias lookalike y campañas por producto.",
       "locucion": "",
       "imagen": "Productos tecnológicos sobre un escritorio con un celular mostrando un anuncio."
     }

@@ -13,7 +13,13 @@ Crea imágenes, carruseles y videos cortos para redes sociales que respetan el t
 
    El código descarta las variantes que rompen reglas y ordena el resto por tono. Si ninguna alcanza el mínimo, le pide a Claude una segunda ronda con las correcciones. Si aun así no alcanza, la pieza queda marcada para **revisión humana**.
 4. **Fondos con IA (opcional, `--imagenes-ia`)**: Claude describe qué debe verse en cada lámina y OpenAI genera la imagen con el estilo fotográfico y la paleta de la marca, sin texto.
-5. **Diseño**: dibuja cada lámina con los colores, fuentes y logo de la marca y la guarda como PNG. Con fondo, la foto queda arriba y el texto abajo sobre un degradado del color de la marca.
+5. **Diseño**: dibuja cada lámina con los colores, tipografías y logo de la marca y la guarda como PNG. Claude elige un tipo de lámina para cada una, para que la pieza no sea solo texto:
+   - `portada`: título grande con etiqueta; `texto`: título y apoyo;
+   - `dato`: una cifra protagonista; `lista`: 2 a 4 puntos numerados;
+   - `comparacion`: antes y después dibujados como gráfico de barras;
+   - `cita`: frase destacada; `cierre`: llamado a la acción como botón.
+
+   Con fondo generado con IA, la foto queda arriba y el texto abajo sobre un degradado del color de la marca.
 6. **Video**: une las láminas en un MP4 vertical con zoom suave y transiciones. Con `--voz`, ElevenLabs lee el guion de locución y cada escena dura lo necesario para que la frase termine antes del cambio.
 
 ## Instalación
@@ -64,9 +70,18 @@ Cada ejecución crea una carpeta en `salida/` con:
 - `publicacion.md`: texto de la publicación, llamado a la acción, hashtags y, en video, el guion de locución.
 - `informe.json`: todas las variantes con sus puntajes de TypeSafe y el motivo si requiere revisión.
 
+## Marcas incluidas
+
+- `marcas/ejemplo.yaml`: Café Aurora, una marca ficticia de ejemplo.
+- `marcas/sprint_latam/`: Sprint LATAM, con tono y reglas tomados de sprintlatam.com y los colores, tipografías (Space Grotesk y Plus Jakarta Sans, licencia OFL) y logo del sitio. En `contenidos/sprint_latam/` hay piezas ya escritas que se diseñan con `--pieza`:
+
+```bash
+python -m generador --marca marcas/sprint_latam/marca.yaml --pieza contenidos/sprint_latam/carrusel_ley_datos.json --formato carrusel
+```
+
 ## Agregar una marca
 
-Copia `marcas/ejemplo.yaml`, cambia los valores y, si tienes logo, ponlo junto al YAML e indica su nombre en `estilo_visual.logo`.
+Copia `marcas/ejemplo.yaml` (o la carpeta `marcas/sprint_latam/`), cambia los valores y, si tienes logo, ponlo junto al YAML e indica su nombre en `estilo_visual.logo`. Para usar tipografías propias, agrega los archivos y decláralos en `estilo_visual.archivos_fuentes`.
 Mientras más concretos sean el tono, las reglas y los ejemplos, mejor redacta Claude y mejor juzga TypeSafe.
 
 ## Ajustes

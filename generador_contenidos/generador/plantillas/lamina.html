@@ -2,69 +2,195 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
+{% set a1 = e.color_acento %}
+{% set a2 = e.color_acento_2 or e.color_acento %}
 <style>
+  {% for familia, archivo in fuentes.items() %}
+  @font-face { font-family: "{{ familia }}"; src: url("{{ archivo }}"); font-weight: 100 900; }
+  {% endfor %}
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: {{ ancho }}px; height: {{ alto }}px; }
   body {
     background: {{ e.color_fondo }};
     color: {{ e.color_texto }};
     font-family: "{{ e.fuente_texto }}", "Helvetica Neue", Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: {{ margen }}px;
     position: relative;
     overflow: hidden;
   }
-  {% if fondo %}
-  .fondo {
+
+  /* Decoración de fondo: brillos de color y trama de puntos. */
+  .brillo { position: absolute; border-radius: 50%; filter: blur(140px); }
+  .brillo.uno { width: 760px; height: 760px; right: -260px; top: -260px; background: {{ a2 }}; opacity: .45; }
+  .brillo.dos { width: 560px; height: 560px; left: -260px; bottom: -220px; background: {{ a1 }}; opacity: .10; }
+  .trama {
     position: absolute; inset: 0;
-    background: url("{{ fondo }}") center / cover no-repeat;
+    background-image: radial-gradient({{ e.color_texto }}22 2px, transparent 2px);
+    background-size: 40px 40px;
+    -webkit-mask-image: linear-gradient(135deg, #000 0%, transparent 55%);
+            mask-image: linear-gradient(135deg, #000 0%, transparent 55%);
   }
-  /* Velo con el color de la marca para que el texto se lea sobre la foto. */
+  .fondo { position: absolute; inset: 0; background: url("{{ fondo }}") center / cover no-repeat; }
   .velo {
     position: absolute; inset: 0;
-    background: linear-gradient(180deg, {{ e.color_fondo }}00 0%, {{ e.color_fondo }}00 30%, {{ e.color_fondo }}D9 62%, {{ e.color_fondo }}F7 100%);
+    background: linear-gradient(180deg, {{ e.color_fondo }}00 0%, {{ e.color_fondo }}00 28%, {{ e.color_fondo }}D9 60%, {{ e.color_fondo }}F7 100%);
   }
-  /* Con foto, el texto baja para dejar la imagen visible arriba. */
-  body { justify-content: flex-end; padding-bottom: {{ margen + 90 }}px; }
-  body > *:not(.fondo):not(.velo):not(.franja):not(.pie) { position: relative; }
-  {% endif %}
-  .franja {
-    position: absolute; left: 0; top: 0; bottom: 0; width: 18px;
-    background: {{ e.color_acento }};
+  .marca-agua {
+    position: absolute; right: 60px; bottom: 120px;
+    font-family: "{{ e.fuente_titulos }}", Arial, sans-serif; font-weight: 800;
+    font-size: 420px; line-height: 1; letter-spacing: -20px;
+    color: transparent; -webkit-text-stroke: 3px {{ e.color_texto }}14;
   }
-  .numero {
-    font-size: 30px; letter-spacing: 4px; color: {{ e.color_acento }};
-    margin-bottom: 36px; font-weight: 700;
+
+  .contenido {
+    position: absolute; inset: 0;
+    padding: {{ margen }}px {{ margen }}px {{ margen + 110 }}px;
+    display: flex; flex-direction: column; justify-content: {{ 'flex-end' if fondo else 'center' }};
+  }
+  .etiqueta {
+    align-self: flex-start;
+    border: 2px solid {{ a1 }}; color: {{ a1 }};
+    border-radius: 999px; padding: 12px 26px; margin-bottom: 44px;
+    font-size: 26px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
   }
   h1 {
-    font-family: "{{ e.fuente_titulos }}", Georgia, serif;
-    font-size: {{ tam_titulo }}px; line-height: 1.08; font-weight: 700;
-    margin-bottom: 40px;
+    font-family: "{{ e.fuente_titulos }}", Arial, sans-serif;
+    font-size: {{ tam_titulo }}px; line-height: 1.02; font-weight: 800; letter-spacing: -2px;
   }
-  p { font-size: {{ tam_texto }}px; line-height: 1.4; color: {{ e.color_secundario }}; max-width: 90%; }
+  h1 em { font-style: normal; color: {{ a2 }}; }
+  .subrayado { width: 150px; height: 10px; background: {{ a1 }}; margin: 44px 0 40px; border-radius: 6px; }
+  p.apoyo {
+    font-size: {{ tam_texto }}px; line-height: 1.4; color: {{ e.color_secundario }};
+    max-width: 92%; margin-top: 36px;
+  }
+  p.apoyo.linea { border-left: 6px solid {{ a1 }}; padding-left: 30px; }
+
+  /* Dato */
+  .dato {
+    font-family: "{{ e.fuente_titulos }}", Arial, sans-serif; font-weight: 900;
+    font-size: {{ tam_dato }}px; line-height: .95; letter-spacing: -6px; margin-bottom: 30px;
+    color: {{ a1 }};
+  }
+  .dato-contenedor h1 { font-size: {{ (tam_titulo * 0.62) | int }}px; }
+
+  /* Lista */
+  ol.items { list-style: none; margin-top: 50px; }
+  ol.items li {
+    display: flex; align-items: center; gap: 34px;
+    font-size: 44px; line-height: 1.25; font-weight: 600;
+    padding: 30px 0; border-top: 2px solid {{ e.color_texto }}1F;
+  }
+  ol.items li:last-child { border-bottom: 2px solid {{ e.color_texto }}1F; }
+  ol.items .num {
+    flex: none; width: 76px; height: 76px; border-radius: 50%;
+    background: {{ a1 }}; color: {{ e.color_fondo }};
+    display: flex; align-items: center; justify-content: center;
+    font-size: 34px; font-weight: 800;
+  }
+
+  /* Comparación */
+  .grafico { display: flex; align-items: flex-end; gap: 70px; height: {{ alto_grafico + 170 }}px; margin-top: 60px; }
+  .columna { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+  .valor { font-family: "{{ e.fuente_titulos }}", Arial, sans-serif; font-weight: 900; font-size: 96px; margin-bottom: 18px; }
+  .barra { width: 100%; border-radius: 22px 22px 6px 6px; }
+  .barra.antes { background: {{ e.color_secundario }}40; }
+  .barra.despues { background: {{ a1 }}; box-shadow: 0 0 90px {{ a1 }}55; }
+  .rotulo { margin-top: 22px; font-size: 30px; letter-spacing: 3px; text-transform: uppercase; color: {{ e.color_secundario }}; }
+  .flecha { align-self: center; font-size: 90px; color: {{ a1 }}; margin-bottom: 120px; }
+
+  /* Cita */
+  .comillas { font-family: Georgia, serif; font-size: 340px; line-height: .6; color: {{ a1 }}; height: 170px; }
+  .cita h1 { font-weight: 700; letter-spacing: -1px; }
+
+  /* Cierre */
+  .boton {
+    align-self: flex-start; margin-top: 60px;
+    background: {{ a1 }}; color: {{ e.color_fondo }};
+    font-size: {{ 40 if cta | length <= 30 else 32 }}px; font-weight: 800; padding: 30px 50px; border-radius: 999px;
+    white-space: nowrap; max-width: 100%;
+    box-shadow: 0 20px 60px {{ a1 }}55;
+  }
+
   .pie {
-    position: absolute; left: {{ margen }}px; right: {{ margen }}px; bottom: {{ margen // 2 }}px;
+    position: absolute; left: {{ margen }}px; right: {{ margen }}px; bottom: 64px;
     display: flex; justify-content: space-between; align-items: center;
-    font-size: 28px; color: {{ e.color_secundario }};
+    font-size: 30px; font-weight: 700; color: {{ e.color_texto }};
   }
-  .pie img { height: 64px; }
+  .pie img { height: 56px; }
+  .pie .desliza { color: {{ a1 }}; letter-spacing: 2px; font-size: 26px; text-transform: uppercase; }
   .puntos { display: flex; gap: 12px; }
-  .puntos span { width: 14px; height: 14px; border-radius: 50%; background: {{ e.color_secundario }}; opacity: .35; }
-  .puntos span.activo { background: {{ e.color_acento }}; opacity: 1; }
+  .puntos span { width: 14px; height: 14px; border-radius: 50%; background: {{ e.color_texto }}; opacity: .25; }
+  .puntos span.activo { background: {{ a1 }}; opacity: 1; width: 42px; border-radius: 8px; }
 </style>
 </head>
 <body>
-  {% if fondo %}<div class="fondo"></div><div class="velo"></div>{% endif %}
-  <div class="franja"></div>
-  {% if total > 1 %}<div class="numero">{{ "%02d" % indice }} / {{ "%02d" % total }}</div>{% endif %}
-  <h1>{{ slide.titulo }}</h1>
-  {% if slide.texto %}<p>{{ slide.texto }}</p>{% endif %}
+  {% if fondo %}
+    <div class="fondo"></div><div class="velo"></div>
+  {% else %}
+    <div class="brillo uno"></div><div class="brillo dos"></div><div class="trama"></div>
+    {% if total > 1 and slide.tipo not in ["portada", "dato", "comparacion"] %}<div class="marca-agua">{{ "%02d" % indice }}</div>{% endif %}
+  {% endif %}
+
+  <div class="contenido">
+    {% if slide.etiqueta %}<div class="etiqueta">{{ slide.etiqueta }}</div>{% endif %}
+
+    {% if slide.tipo == "portada" %}
+      <h1>{{ slide.titulo }}</h1>
+      <div class="subrayado"></div>
+      {% if slide.texto %}<p class="apoyo" style="margin-top:0">{{ slide.texto }}</p>{% endif %}
+
+    {% elif slide.tipo == "dato" and slide.dato %}
+      <div class="dato-contenedor">
+        <div class="dato">{{ slide.dato }}</div>
+        <h1>{{ slide.titulo }}</h1>
+        {% if slide.texto %}<p class="apoyo linea">{{ slide.texto }}</p>{% endif %}
+      </div>
+
+    {% elif slide.tipo == "lista" and slide.items %}
+      <h1 style="font-size: {{ (tam_titulo * 0.72) | int }}px">{{ slide.titulo }}</h1>
+      <ol class="items">
+        {% for item in slide.items %}<li><span class="num">{{ loop.index }}</span><span>{{ item }}</span></li>{% endfor %}
+      </ol>
+
+    {% elif slide.tipo == "comparacion" and barras %}
+      <h1 style="font-size: {{ (tam_titulo * 0.72) | int }}px">{{ slide.titulo }}</h1>
+      <div class="grafico">
+        <div class="columna">
+          <div class="valor">{{ slide.antes }}</div>
+          <div class="barra antes" style="height: {{ barras[0] }}px"></div>
+          <div class="rotulo">Antes</div>
+        </div>
+        <div class="flecha">→</div>
+        <div class="columna">
+          <div class="valor">{{ slide.despues }}</div>
+          <div class="barra despues" style="height: {{ barras[1] }}px"></div>
+          <div class="rotulo">Después</div>
+        </div>
+      </div>
+      {% if slide.texto %}<p class="apoyo">{{ slide.texto }}</p>{% endif %}
+
+    {% elif slide.tipo == "cita" %}
+      <div class="cita">
+        <div class="comillas">“</div>
+        <h1>{{ slide.titulo }}</h1>
+        {% if slide.texto %}<p class="apoyo">— {{ slide.texto }}</p>{% endif %}
+      </div>
+
+    {% elif slide.tipo == "cierre" %}
+      <h1>{{ slide.titulo }}</h1>
+      {% if slide.texto %}<p class="apoyo">{{ slide.texto }}</p>{% endif %}
+      <div class="boton">{{ cta }} →</div>
+
+    {% else %}
+      <h1>{{ slide.titulo }}</h1>
+      {% if slide.texto %}<p class="apoyo linea">{{ slide.texto }}</p>{% endif %}
+    {% endif %}
+  </div>
+
   <div class="pie">
-    {% if logo %}<img src="{{ logo }}" alt="">{% else %}<strong>{{ marca }}</strong>{% endif %}
+    {% if logo %}<img src="{{ logo }}" alt="">{% else %}<span>{{ marca }}</span>{% endif %}
     {% if total > 1 %}
-    <div class="puntos">{% for i in range(1, total + 1) %}<span class="{{ 'activo' if i == indice else '' }}"></span>{% endfor %}</div>
+      {% if indice == 1 and es_carrusel %}<span class="desliza">Desliza →</span>{% endif %}
+      <div class="puntos">{% for i in range(1, total + 1) %}<span class="{{ 'activo' if i == indice else '' }}"></span>{% endfor %}</div>
     {% endif %}
   </div>
 </body>

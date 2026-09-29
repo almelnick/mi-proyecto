@@ -8,7 +8,26 @@ Formato = Literal["imagen", "carrusel", "video"]
 Red = Literal["instagram", "linkedin", "tiktok", "facebook"]
 
 
+TipoLamina = Literal["portada", "texto", "dato", "lista", "comparacion", "cita", "cierre"]
+
+
 class Slide(BaseModel):
+    tipo: TipoLamina = Field(
+        default="texto",
+        description=(
+            "Diseño de la lámina. portada: primera lámina, título grande con etiqueta. "
+            "texto: título y texto de apoyo. dato: una cifra protagonista en `dato`. "
+            "lista: 2 a 4 puntos breves en `items`. comparacion: un antes y un después numéricos "
+            "en `antes` y `despues`, se dibuja como gráfico de barras. cita: una frase destacada en "
+            "`titulo`. cierre: última lámina con el llamado a la acción. Varía los tipos para que "
+            "la pieza no sea solo texto."
+        ),
+    )
+    etiqueta: str = Field(default="", description="Etiqueta corta sobre el título (2 a 4 palabras). Opcional.")
+    dato: str = Field(default="", description="Solo tipo dato: la cifra grande, por ejemplo '20.000 UTM'.")
+    items: list[str] = Field(default_factory=list, description="Solo tipo lista: 2 a 4 puntos de máximo 8 palabras.")
+    antes: str = Field(default="", description="Solo tipo comparacion: valor inicial con su unidad, por ejemplo '3'.")
+    despues: str = Field(default="", description="Solo tipo comparacion: valor final, por ejemplo '10'.")
     titulo: str = Field(description="Texto grande de la lámina o escena. Máximo 8 palabras.")
     texto: str = Field(description="Texto de apoyo. Máximo 25 palabras. Puede ir vacío.")
     locucion: str = Field(

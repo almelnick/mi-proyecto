@@ -3,6 +3,7 @@
 import base64
 import mimetypes
 import os
+import re
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -22,23 +23,50 @@ _entorno = Environment(loader=FileSystemLoader(PLANTILLAS), autoescape=select_au
 def _embebido(ruta: Path | None) -> str | None:
     if ruta is None:
         return None
-    tipo = mimetypes.guess_type(ruta.name)[0] or "image/png"
+    tipo = mimetypes.guess_type(ruta.name)[0] or ("font/woff2" if ruta.suffix == ".woff2" else "image/png")
     return f"data:{tipo};base64," + base64.b64encode(ruta.read_bytes()).decode()
+
+
+def _numero(texto: str) -> float | None:
+    """Lee '3', '10x', '20.000 UTM' o '4,5 %' como número (formato chileno)."""
+    m = re.search(r"\d[\d.,]*", texto)
+    if not m:
+        return None
+    limpio = re.sub(r"\.(?=\d{3}(\D|$))", "", m.group()).replace(",", ".")
+    try:
+        return float(limpio)
+    except ValueError:
+        return None
+
+
+def _barras(antes: str, despues: str, alto_max: int) -> tuple[int, int] | None:
+    a, d = _numero(antes), _numero(despues)
+    if a is None or d is None or max(a, d) <= 0:
+        return None
+    tope = max(a, d)
+    return max(24, round(alto_max * a / tope)), max(24, round(alto_max * d / tope))
 
 
 def _html(marca: Marca, pieza: Pieza, formato: Formato, indice: int, fondo: Path | None = None) -> str:
     ancho, alto = TAMANOS[formato]
     slide = pieza.slides[indice - 1]
     largo = len(slide.titulo)
+    alto_grafico = 420 if formato != "video" else 700
     return _entorno.get_template("lamina.html").render(
         ancho=ancho,
         alto=alto,
         margen=96,
-        tam_titulo=110 if largo < 30 else 88 if largo < 60 else 70,
-        tam_texto=44,
+        tam_titulo=112 if largo < 30 else 90 if largo < 60 else 72,
+        tam_texto=42,
+        tam_dato=240 if len(slide.dato) <= 6 else 170 if len(slide.dato) <= 10 else 130,
+        alto_grafico=alto_grafico,
+        barras=_barras(slide.antes, slide.despues, alto_grafico),
+        cta=pieza.cta,
+        es_carrusel=formato == "carrusel",
         e=marca.estilo_visual,
         marca=marca.nombre,
         logo=_embebido(marca.ruta_logo()),
+        fuentes={familia: _embebido(ruta) for familia, ruta in marca.rutas_fuentes().items()},
         fondo=_embebido(fondo),
         slide=slide,
         indice=indice,

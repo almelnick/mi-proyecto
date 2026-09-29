@@ -78,6 +78,7 @@ def redactar_sin_ia(marca: Marca, tema: str, formato: Formato, cantidad: int) ->
     for n in range(1, cantidad + 1):
         slides = [
             Slide(
+                tipo="portada" if i == 0 else "cierre" if i == laminas - 1 and laminas > 1 else "texto",
                 titulo=tema[:1].upper() + tema[1:] if i == 0 else f"Idea {i}",
                 texto=f"{marca.nombre}: variante {n}, lámina {i + 1}.",
                 locucion=f"Escena {i + 1} sobre {tema}." if formato == "video" else "",
