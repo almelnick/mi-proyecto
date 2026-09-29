@@ -14,6 +14,9 @@ class Slide(BaseModel):
     locucion: str = Field(
         description="Solo para video: lo que dice la voz en off en esta escena. Vacío en otros formatos."
     )
+    imagen: str = Field(
+        description="Qué se ve en la imagen de fondo de esta lámina, en una o dos frases. Sin texto ni letras."
+    )
 
 
 class Pieza(BaseModel):

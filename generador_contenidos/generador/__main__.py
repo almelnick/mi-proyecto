@@ -18,7 +18,15 @@ def main() -> None:
     parser.add_argument(
         "--sin-ia", action="store_true", help="Usa textos de prueba, sin llamar a Claude ni a TypeSafe."
     )
+    parser.add_argument(
+        "--imagenes-ia", action="store_true", help="Genera un fondo con IA para cada lámina (OpenAI)."
+    )
+    parser.add_argument(
+        "--voz", action="store_true", help="Agrega voz en off al video con el guion de locución (ElevenLabs)."
+    )
     args = parser.parse_args()
+    if args.voz and args.formato != "video":
+        parser.error("--voz solo aplica al formato video.")
 
     carpeta = generar(
         Marca.cargar(args.marca),
@@ -28,6 +36,8 @@ def main() -> None:
         variantes=args.variantes,
         salida=args.salida,
         sin_ia=args.sin_ia,
+        imagenes_ia=args.imagenes_ia,
+        voz=args.voz,
     )
     print(f"Listo. Archivos en: {carpeta}")
 

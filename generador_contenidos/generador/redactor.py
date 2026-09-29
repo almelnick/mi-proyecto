@@ -81,6 +81,7 @@ def redactar_sin_ia(marca: Marca, tema: str, formato: Formato, cantidad: int) ->
                 titulo=tema[:1].upper() + tema[1:] if i == 0 else f"Idea {i}",
                 texto=f"{marca.nombre}: variante {n}, lámina {i + 1}.",
                 locucion=f"Escena {i + 1} sobre {tema}." if formato == "video" else "",
+                imagen=f"Escena relacionada con {tema}.",
             )
             for i in range(laminas)
         ]

@@ -12,7 +12,7 @@ MARCA = Marca.cargar(Path(__file__).parent.parent / "marcas" / "ejemplo.yaml")
 def _pieza(gancho: str) -> Pieza:
     return Pieza(
         gancho=gancho,
-        slides=[Slide(titulo="Hola", texto="", locucion="")],
+        slides=[Slide(titulo="Hola", texto="", locucion="", imagen="")],
         caption="Ven a probarlo.",
         cta="Visítanos",
         hashtags=["#CaféAurora"],

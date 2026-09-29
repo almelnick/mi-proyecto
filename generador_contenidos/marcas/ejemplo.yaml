@@ -43,3 +43,10 @@ estilo_visual:
   fuente_titulos: Georgia
   fuente_texto: Helvetica
   logo: null
+  # Cómo deben verse los fondos generados con IA (--imagenes-ia).
+  estilo_imagenes: Fotografía cálida y natural de café y cafetería, luz de ventana, tonos tierra, poca profundidad de campo.
+
+# Voz en off para videos (--voz). id_voz es el ID de una voz de ElevenLabs; si se deja vacío se usa una por defecto.
+voz:
+  id_voz: null
+  modelo: eleven_multilingual_v2

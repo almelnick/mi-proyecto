@@ -60,6 +60,8 @@ def generar(
     variantes: int = 3,
     salida: Path = Path("salida"),
     sin_ia: bool = False,
+    imagenes_ia: bool = False,
+    voz: bool = False,
 ) -> Path:
     if sin_ia:
         resultados = [Resultado(pieza=p) for p in redactor.redactar_sin_ia(marca, tema, formato, variantes)]
@@ -70,9 +72,19 @@ def generar(
     revision = evaluador.necesita_revision(elegida)
 
     carpeta = salida / f"{datetime.now():%Y%m%d-%H%M%S}-{_slug(tema)}-{formato}"
-    laminas = renderizar(marca, elegida.pieza, formato, carpeta / "laminas")
+    fondos = None
+    if imagenes_ia:
+        from .imagenes import generar_fondos
+
+        fondos = generar_fondos(marca, elegida.pieza, carpeta / "fondos")
+    laminas = renderizar(marca, elegida.pieza, formato, carpeta / "laminas", fondos)
     if formato == "video":
-        armar_video(laminas, carpeta / "video.mp4")
+        audios = None
+        if voz:
+            from .voz import locutar
+
+            audios = locutar(marca, elegida.pieza, carpeta / "voz")
+        armar_video(laminas, carpeta / "video.mp4", audios)
 
     (carpeta / "publicacion.md").write_text(_texto_publicacion(elegida, formato, revision), encoding="utf-8")
     informe = {

@@ -20,6 +20,12 @@ class EstiloVisual(BaseModel):
     fuente_titulos: str = "Georgia"
     fuente_texto: str = "Helvetica"
     logo: str | None = None  # ruta relativa al YAML de la marca
+    estilo_imagenes: str = "Fotografía natural, luz suave, composición limpia."
+
+
+class Voz(BaseModel):
+    id_voz: str | None = None  # ID de la voz en ElevenLabs
+    modelo: str = "eleven_multilingual_v2"
 
 
 class Marca(BaseModel):
@@ -32,6 +38,7 @@ class Marca(BaseModel):
     hashtags: list[str] = Field(default_factory=list)
     ejemplos: list[str] = Field(default_factory=list)
     estilo_visual: EstiloVisual = Field(default_factory=EstiloVisual)
+    voz: Voz = Field(default_factory=Voz)
 
     carpeta: Path | None = Field(default=None, exclude=True)
 
@@ -51,4 +58,4 @@ class Marca(BaseModel):
 
     def resumen_para_ia(self) -> dict:
         """Datos de la marca que se envían a los modelos (sin estilo visual)."""
-        return self.model_dump(exclude={"estilo_visual", "carpeta"})
+        return self.model_dump(exclude={"estilo_visual", "voz", "carpeta"})

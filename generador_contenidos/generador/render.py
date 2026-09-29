@@ -19,15 +19,14 @@ TAMANOS = {"imagen": (1080, 1350), "carrusel": (1080, 1350), "video": (1080, 192
 _entorno = Environment(loader=FileSystemLoader(PLANTILLAS), autoescape=select_autoescape(["html"]))
 
 
-def _logo_embebido(marca: Marca) -> str | None:
-    ruta = marca.ruta_logo()
+def _embebido(ruta: Path | None) -> str | None:
     if ruta is None:
         return None
     tipo = mimetypes.guess_type(ruta.name)[0] or "image/png"
     return f"data:{tipo};base64," + base64.b64encode(ruta.read_bytes()).decode()
 
 
-def _html(marca: Marca, pieza: Pieza, formato: Formato, indice: int) -> str:
+def _html(marca: Marca, pieza: Pieza, formato: Formato, indice: int, fondo: Path | None = None) -> str:
     ancho, alto = TAMANOS[formato]
     slide = pieza.slides[indice - 1]
     largo = len(slide.titulo)
@@ -39,7 +38,8 @@ def _html(marca: Marca, pieza: Pieza, formato: Formato, indice: int) -> str:
         tam_texto=44,
         e=marca.estilo_visual,
         marca=marca.nombre,
-        logo=_logo_embebido(marca),
+        logo=_embebido(marca.ruta_logo()),
+        fondo=_embebido(fondo),
         slide=slide,
         indice=indice,
         total=len(pieza.slides),
@@ -59,7 +59,9 @@ def _lanzar(p):
         raise
 
 
-def renderizar(marca: Marca, pieza: Pieza, formato: Formato, carpeta: Path) -> list[Path]:
+def renderizar(
+    marca: Marca, pieza: Pieza, formato: Formato, carpeta: Path, fondos: list[Path] | None = None
+) -> list[Path]:
     carpeta.mkdir(parents=True, exist_ok=True)
     ancho, alto = TAMANOS[formato]
     archivos = []
@@ -67,7 +69,8 @@ def renderizar(marca: Marca, pieza: Pieza, formato: Formato, carpeta: Path) -> l
         navegador = _lanzar(p)
         pagina = navegador.new_page(viewport={"width": ancho, "height": alto})
         for i in range(1, len(pieza.slides) + 1):
-            pagina.set_content(_html(marca, pieza, formato, i), wait_until="load")
+            fondo = fondos[i - 1] if fondos else None
+            pagina.set_content(_html(marca, pieza, formato, i, fondo), wait_until="load")
             destino = carpeta / f"lamina_{i:02d}.png"
             pagina.screenshot(path=str(destino))
             archivos.append(destino)
