@@ -1,0 +1,45 @@
+# Kit de marca de ejemplo. Copia este archivo para cada marca y ajusta los valores.
+nombre: Café Aurora
+descripcion: Cafetería de especialidad en Santiago que tuesta su propio café en pequeños lotes.
+publico: Personas de 25 a 45 años que disfrutan el buen café y buscan un lugar tranquilo para trabajar o conversar.
+
+tono:
+  descripcion: Cercano, cálido y optimista. Frases cortas. Trata al lector de tú. Habla con orgullo del oficio, sin sonar pretencioso.
+  si:
+    - Contar detalles concretos del origen y del tueste
+    - Invitar a vivir la experiencia en el local
+    - Usar un toque de humor suave
+  "no":
+    - Lenguaje técnico sin explicar
+    - Tono de oferta agresiva o urgencia falsa
+    - Exceso de emojis (máximo dos por publicación)
+
+reglas_prohibidas:
+  - Prometer beneficios para la salud
+  - Mencionar o comparar con otras cafeterías o marcas
+  - Usar voseo (por ejemplo "probá", "vení", "tenés")
+  - Inventar premios, cifras o certificaciones
+
+vocabulario_preferido:
+  - tueste
+  - origen
+  - pausa
+  - taza
+
+hashtags:
+  - "#CaféAurora"
+  - "#CaféDeEspecialidad"
+  - "#Santiago"
+
+ejemplos:
+  - "Este lote viene de Huila, Colombia. Notas a panela y durazno. Ven a probarlo esta semana, te lo preparamos como más te guste."
+  - "Tu pausa de las cuatro merece algo mejor que un café apurado. Aquí te esperamos."
+
+estilo_visual:
+  color_fondo: "#2B1D14"
+  color_texto: "#FFF8EE"
+  color_acento: "#E3A857"
+  color_secundario: "#D9C7B0"
+  fuente_titulos: Georgia
+  fuente_texto: Helvetica
+  logo: null

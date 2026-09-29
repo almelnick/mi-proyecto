@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: {{ ancho }}px; height: {{ alto }}px; }
+  body {
+    background: {{ e.color_fondo }};
+    color: {{ e.color_texto }};
+    font-family: "{{ e.fuente_texto }}", "Helvetica Neue", Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: {{ margen }}px;
+    position: relative;
+    overflow: hidden;
+  }
+  .franja {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 18px;
+    background: {{ e.color_acento }};
+  }
+  .numero {
+    font-size: 30px; letter-spacing: 4px; color: {{ e.color_acento }};
+    margin-bottom: 36px; font-weight: 700;
+  }
+  h1 {
+    font-family: "{{ e.fuente_titulos }}", Georgia, serif;
+    font-size: {{ tam_titulo }}px; line-height: 1.08; font-weight: 700;
+    margin-bottom: 40px;
+  }
+  p { font-size: {{ tam_texto }}px; line-height: 1.4; color: {{ e.color_secundario }}; max-width: 90%; }
+  .pie {
+    position: absolute; left: {{ margen }}px; right: {{ margen }}px; bottom: {{ margen // 2 }}px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 28px; color: {{ e.color_secundario }};
+  }
+  .pie img { height: 64px; }
+  .puntos { display: flex; gap: 12px; }
+  .puntos span { width: 14px; height: 14px; border-radius: 50%; background: {{ e.color_secundario }}; opacity: .35; }
+  .puntos span.activo { background: {{ e.color_acento }}; opacity: 1; }
+</style>
+</head>
+<body>
+  <div class="franja"></div>
+  {% if total > 1 %}<div class="numero">{{ "%02d" % indice }} / {{ "%02d" % total }}</div>{% endif %}
+  <h1>{{ slide.titulo }}</h1>
+  {% if slide.texto %}<p>{{ slide.texto }}</p>{% endif %}
+  <div class="pie">
+    {% if logo %}<img src="{{ logo }}" alt="">{% else %}<strong>{{ marca }}</strong>{% endif %}
+    {% if total > 1 %}
+    <div class="puntos">{% for i in range(1, total + 1) %}<span class="{{ 'activo' if i == indice else '' }}"></span>{% endfor %}</div>
+    {% endif %}
+  </div>
+</body>
+</html>

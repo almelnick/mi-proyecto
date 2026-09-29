@@ -1,0 +1,75 @@
+"""Convierte las láminas en PNG con los colores, fuentes y logo de la marca."""
+
+import base64
+import mimetypes
+import os
+from pathlib import Path
+
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+from playwright.sync_api import sync_playwright
+
+from .marca import Marca
+from .modelos import Formato, Pieza
+
+PLANTILLAS = Path(__file__).parent / "plantillas"
+
+# Ancho x alto en píxeles. Imagen y carrusel en 4:5 (feed); video en 9:16 (reels, TikTok).
+TAMANOS = {"imagen": (1080, 1350), "carrusel": (1080, 1350), "video": (1080, 1920)}
+
+_entorno = Environment(loader=FileSystemLoader(PLANTILLAS), autoescape=select_autoescape(["html"]))
+
+
+def _logo_embebido(marca: Marca) -> str | None:
+    ruta = marca.ruta_logo()
+    if ruta is None:
+        return None
+    tipo = mimetypes.guess_type(ruta.name)[0] or "image/png"
+    return f"data:{tipo};base64," + base64.b64encode(ruta.read_bytes()).decode()
+
+
+def _html(marca: Marca, pieza: Pieza, formato: Formato, indice: int) -> str:
+    ancho, alto = TAMANOS[formato]
+    slide = pieza.slides[indice - 1]
+    largo = len(slide.titulo)
+    return _entorno.get_template("lamina.html").render(
+        ancho=ancho,
+        alto=alto,
+        margen=96,
+        tam_titulo=110 if largo < 30 else 88 if largo < 60 else 70,
+        tam_texto=44,
+        e=marca.estilo_visual,
+        marca=marca.nombre,
+        logo=_logo_embebido(marca),
+        slide=slide,
+        indice=indice,
+        total=len(pieza.slides),
+    )
+
+
+def _lanzar(p):
+    ruta = os.environ.get("CHROMIUM_PATH")
+    if ruta:
+        return p.chromium.launch(executable_path=ruta)
+    try:
+        return p.chromium.launch()
+    except Exception:
+        # Entornos con un Chromium preinstalado que no coincide con la versión de Playwright.
+        for candidato in Path("/opt/pw-browsers").glob("chromium-*/chrome-linux/chrome"):
+            return p.chromium.launch(executable_path=str(candidato))
+        raise
+
+
+def renderizar(marca: Marca, pieza: Pieza, formato: Formato, carpeta: Path) -> list[Path]:
+    carpeta.mkdir(parents=True, exist_ok=True)
+    ancho, alto = TAMANOS[formato]
+    archivos = []
+    with sync_playwright() as p:
+        navegador = _lanzar(p)
+        pagina = navegador.new_page(viewport={"width": ancho, "height": alto})
+        for i in range(1, len(pieza.slides) + 1):
+            pagina.set_content(_html(marca, pieza, formato, i), wait_until="load")
+            destino = carpeta / f"lamina_{i:02d}.png"
+            pagina.screenshot(path=str(destino))
+            archivos.append(destino)
+        navegador.close()
+    return archivos
