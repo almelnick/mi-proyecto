@@ -8,7 +8,7 @@ from pathlib import Path
 
 from . import evaluador, redactor
 from .marca import Marca
-from .modelos import Formato, Red, Resultado
+from .modelos import Formato, Pieza, Red, Resultado
 from .render import renderizar
 from .video import armar_video
 
@@ -62,8 +62,11 @@ def generar(
     sin_ia: bool = False,
     imagenes_ia: bool = False,
     voz: bool = False,
+    pieza: Pieza | None = None,
 ) -> Path:
-    if sin_ia:
+    if pieza is not None:
+        resultados = [Resultado(pieza=pieza)]
+    elif sin_ia:
         resultados = [Resultado(pieza=p) for p in redactor.redactar_sin_ia(marca, tema, formato, variantes)]
     else:
         resultados = _elegir(marca, tema, formato, red, variantes)

@@ -1,0 +1,50 @@
+{
+  "gancho": "La Ley 21.719 cambia las reglas del marketing en Chile desde el 1 de diciembre de 2026.",
+  "slides": [
+    {
+      "titulo": "Tu marketing tiene fecha límite",
+      "texto": "Desde el 1 de diciembre de 2026 rige la Ley 21.719 de protección de datos personales.",
+      "locucion": "",
+      "imagen": "Calendario de escritorio junto a un notebook con un dashboard desenfocado."
+    },
+    {
+      "titulo": "Sin base legal, es infracción",
+      "texto": "Tratar datos personales sin una base legal válida lo fiscalizará la nueva Agencia de Protección de Datos Personales.",
+      "locucion": "",
+      "imagen": "Formulario web en una pantalla, vista de cerca."
+    },
+    {
+      "titulo": "Adiós a las casillas pre-marcadas",
+      "texto": "El consentimiento debe ser explícito e informado. Formularios y bases de contacto tienen que estar en regla.",
+      "locucion": "",
+      "imagen": "Mano marcando una casilla en un formulario en una tablet."
+    },
+    {
+      "titulo": "Multas de hasta 20.000 UTM",
+      "texto": "Por infracción. Y hasta el 4 % de los ingresos si hay reincidencia.",
+      "locucion": "",
+      "imagen": "Reunión de directorio revisando documentos."
+    },
+    {
+      "titulo": "También respondes por tus proveedores",
+      "texto": "Remarketing, píxeles y herramientas externas: lo que hagan con tus datos también es tu responsabilidad.",
+      "locucion": "",
+      "imagen": "Equipo revisando integraciones en varias pantallas."
+    },
+    {
+      "titulo": "Revisa tu política de privacidad gratis",
+      "texto": "Un primer paso concreto: sprintlatam.com/ley-datos",
+      "locucion": "",
+      "imagen": "Oficina moderna en Santiago con luz natural."
+    }
+  ],
+  "caption": "La nueva ley de datos no es solo un tema legal: toca tus formularios, tus bases de contacto, tu remarketing y tus píxeles. Desde el 1 de diciembre de 2026, el consentimiento tiene que ser explícito e informado, y tu empresa responde también por lo que hacen tus proveedores con los datos. Te dejamos lo esencial en 6 láminas.",
+  "cta": "Revisa tu política de privacidad gratis en sprintlatam.com/ley-datos",
+  "hashtags": [
+    "#SprintLATAM",
+    "#Ley21719",
+    "#ProteccionDeDatos",
+    "#MarketingDigital",
+    "#Chile"
+  ]
+}

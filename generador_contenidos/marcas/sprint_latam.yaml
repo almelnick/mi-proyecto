@@ -1,0 +1,80 @@
+# Kit de marca de Sprint LATAM, armado a partir de www.sprintlatam.com (septiembre 2026).
+# Los colores y tipografías son provisorios: reemplazarlos por los del manual de marca.
+nombre: Sprint LATAM
+descripcion: >
+  Agencia de marketing digital en Chile que convierte marketing en crecimiento medible:
+  SEO, SEO con IA (GEO), performance en Google Ads y Meta Ads, redes sociales y contenido,
+  desarrollo web y asesoría, bajo un mismo método de sprints (Descubrir, Priorizar,
+  Experimentar, Escalar) y con Leonia, su sistema que conecta datos de Google, Meta y el CRM.
+  Opera en Chile, Colombia, Perú, México y Argentina. Google Partner, Meta Business Partner
+  y TikTok Marketing Partner. Fundada por Rodrigo Ureta y Alan Melnick.
+publico: >
+  Gerentes de marketing, dueños y equipos comerciales de empresas medianas y grandes de
+  Chile y Latinoamérica (y pymes que parten con asesoría) que quieren leads y ventas
+  medibles, no reportes de visitas y likes.
+
+tono:
+  descripcion: >
+    Directo, experto y sin humo. Trata al lector de tú. Frases cortas y concretas.
+    Habla en términos de negocio (leads, ventas, costo por adquisición) y respalda cada
+    afirmación con evidencia, método o datos con periodo y contexto. Seguro, pero no
+    arrogante: explica el porqué en lenguaje simple.
+  si:
+    - Ir al punto en la primera frase
+    - Hablar de resultados medidos en negocio (leads, ventas, CPA, ROAS) con periodo y contexto
+    - Explicar el método Sprint o cómo se decide con datos
+    - Traducir cambios de Google, Meta o la IA a qué debe hacer una empresa
+    - Cerrar con un paso concreto (diagnóstico, revisión, conversación)
+  "no":
+    - Promesas vagas o grandilocuentes ("revoluciona", "explota tus ventas")
+    - Jerga sin explicar o anglicismos innecesarios
+    - Métricas de vanidad (visitas, likes, seguidores) presentadas como resultado
+    - Tono de vendedor agresivo o urgencia falsa
+    - Exceso de emojis (máximo uno por publicación)
+
+reglas_prohibidas:
+  - Inventar cifras, casos, clientes, premios o certificaciones que no estén en el sitio
+  - Garantizar resultados, posiciones en Google o apariciones en ChatGPT
+  - Atribuir los resultados de un caso a un cliente con nombre (los casos se describen por industria)
+  - Mencionar o criticar a otras agencias por su nombre
+  - Usar voseo (por ejemplo "mirá", "tenés", "hacé")
+  - Dar asesoría legal definitiva sobre la ley de datos en lugar de invitar a revisarla
+
+vocabulario_preferido:
+  - crecimiento medible
+  - sprint
+  - hipótesis
+  - evidencia
+  - leads y ventas
+  - SEO con IA
+  - Descubrir, Priorizar, Experimentar, Escalar
+
+hashtags:
+  - "#SprintLATAM"
+  - "#MarketingDigital"
+  - "#SEO"
+  - "#GEO"
+  - "#PerformanceMarketing"
+
+ejemplos:
+  - "Convertimos marketing en crecimiento medible: estrategia, medios y experimentación conectados con tus objetivos de negocio."
+  - "Cada acción tiene una métrica: leads, ventas, costo por adquisición. No reportamos visitas ni likes como resultado."
+  - "Si una hipótesis no funciona, es información para el siguiente sprint, no un fracaso oculto en un informe trimestral."
+  - "No vendemos horas, vendemos un sistema."
+
+estilo_visual:
+  color_fondo: "#0E1116"
+  color_texto: "#FFFFFF"
+  color_acento: "#3B82F6"
+  color_secundario: "#C7CDD6"
+  fuente_titulos: Helvetica
+  fuente_texto: Helvetica
+  logo: null
+  estilo_imagenes: >
+    Fotografía editorial corporativa y sobria: equipos trabajando con datos, pantallas con
+    dashboards desenfocados, oficinas modernas en Santiago, luz natural, tonos fríos y
+    neutros, sin personas mirando a cámara.
+
+voz:
+  id_voz: null
+  modelo: eleven_multilingual_v2

@@ -93,7 +93,7 @@ def necesita_revision(r: Resultado) -> str | None:
     """Devuelve el motivo si la mejor variante debería pasar por una persona antes de publicarse."""
     ev = r.evaluacion
     if ev is None:
-        return "No se evaluó con TypeSafe (modo sin IA)."
+        return "No se evaluó con TypeSafe."
     if r.descartada:
         return r.motivo
     if ev.tono < UMBRAL_TONO:
