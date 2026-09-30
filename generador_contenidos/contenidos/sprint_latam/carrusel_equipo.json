@@ -1,0 +1,84 @@
+{
+  "gancho": "En Sprint LATAM hablas con quien analiza tu caso: los cofundadores lideran cada proyecto.",
+  "slides": [
+    {
+      "tipo": "portada",
+      "estilo": "auto",
+      "persona": "",
+      "etiqueta": "Equipo senior",
+      "dato": "",
+      "items": [],
+      "antes": "",
+      "despues": "",
+      "titulo": "Sin *intermediarios* entre tú y quien decide",
+      "texto": "Los cofundadores lideran cada proyecto.",
+      "locucion": "En Sprint no hay una capa de ejecutivos junior entre tú y quien toma las decisiones.",
+      "imagen": ""
+    },
+    {
+      "tipo": "persona",
+      "estilo": "auto",
+      "persona": "alan-melnick",
+      "etiqueta": "",
+      "dato": "",
+      "items": [],
+      "antes": "",
+      "despues": "",
+      "titulo": "Lidera *SEO* y _SEO con IA_",
+      "texto": "Más de 15 años en SEO, Google Ads, Meta Ads y growth para empresas de Chile y LATAM.",
+      "locucion": "Alan Melnick lidera SEO, SEO con IA y estrategia.",
+      "imagen": ""
+    },
+    {
+      "tipo": "persona",
+      "estilo": "auto",
+      "persona": "rodrigo-ureta",
+      "etiqueta": "",
+      "dato": "",
+      "items": [],
+      "antes": "",
+      "despues": "",
+      "titulo": "Lidera *performance* y operación",
+      "texto": "Más de 20 años en estrategia, marketing, ecommerce y transformación digital.",
+      "locucion": "Rodrigo Ureta lidera performance y la operación de la agencia.",
+      "imagen": ""
+    },
+    {
+      "tipo": "dato",
+      "estilo": "auto",
+      "persona": "",
+      "etiqueta": "",
+      "dato": "35+",
+      "items": [],
+      "antes": "",
+      "despues": "",
+      "titulo": "años de experiencia _combinada_",
+      "texto": "En Chile, Latinoamérica, Estados Unidos y España.",
+      "locucion": "Juntos suman más de treinta y cinco años de experiencia en Chile, Latinoamérica, Estados Unidos y España.",
+      "imagen": ""
+    },
+    {
+      "tipo": "cierre",
+      "estilo": "auto",
+      "persona": "",
+      "etiqueta": "",
+      "dato": "",
+      "items": [],
+      "antes": "",
+      "despues": "",
+      "titulo": "Hablas con quien *analiza* tu caso",
+      "texto": "Cuéntanos tu proyecto y te respondemos en menos de un día hábil.",
+      "locucion": "Hablas con quien analiza tu caso. Escríbenos en sprintlatam punto com.",
+      "imagen": ""
+    }
+  ],
+  "caption": "En Sprint LATAM no hay una capa de account managers junior entre tú y quien toma las decisiones: Alan Melnick lidera SEO, SEO con IA y estrategia, y Rodrigo Ureta lidera performance y operación. Más de 35 años de experiencia combinada en Chile, Latinoamérica, Estados Unidos y España.",
+  "cta": "Hablemos en sprintlatam.com",
+  "hashtags": [
+    "#SprintLATAM",
+    "#MarketingDigital",
+    "#SEO",
+    "#PerformanceMarketing",
+    "#Chile"
+  ]
+}

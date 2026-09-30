@@ -8,7 +8,7 @@
       "items": [],
       "antes": "",
       "despues": "",
-      "titulo": "¿La IA recomienda tu marca?",
+      "titulo": "¿La IA recomienda _tu marca_?",
       "texto": "",
       "locucion": "Cuando alguien le pregunta a la IA por lo que vendes, ¿aparece tu marca?",
       "imagen": "Persona escribiendo una pregunta en un chat de IA en su celular."
@@ -20,7 +20,7 @@
       "items": [],
       "antes": "",
       "despues": "",
-      "titulo": "La búsqueda cambió",
+      "titulo": "La búsqueda *cambió*",
       "texto": "Cada vez más personas buscan en ChatGPT, Gemini y AI Overviews antes que en Google.",
       "locucion": "Cada vez más personas buscan en ChatGPT, Gemini y los AI Overviews antes que en Google.",
       "imagen": "Notebook con un buscador abierto."
@@ -37,7 +37,7 @@
       ],
       "antes": "",
       "despues": "",
-      "titulo": "Dónde tiene que estar tu marca",
+      "titulo": "Dónde tiene que estar _tu marca_",
       "texto": "",
       "locucion": "Tu marca tiene que estar en Google, en los AI Overviews, en ChatGPT, en Gemini y en Perplexity.",
       "imagen": "Varias pantallas con resultados de búsqueda."
@@ -49,7 +49,7 @@
       "items": [],
       "antes": "",
       "despues": "",
-      "titulo": "GEO no es un servicio aparte: va desde el diagnóstico.",
+      "titulo": "GEO no es un servicio aparte: va desde el *diagnóstico*.",
       "texto": "Método Sprint",
       "locucion": "Por eso trabajamos GEO desde el diagnóstico, no como un servicio aparte.",
       "imagen": "Equipo revisando un diagnóstico."
@@ -61,7 +61,7 @@
       "items": [],
       "antes": "",
       "despues": "",
-      "titulo": "Que la IA también te cite",
+      "titulo": "Que la IA también *te cite*",
       "texto": "Conoce cómo trabajamos SEO con IA.",
       "locucion": "Conoce cómo trabajamos SEO con IA en sprintlatam punto com.",
       "imagen": "Oficina moderna en Santiago."

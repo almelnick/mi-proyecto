@@ -8,7 +8,7 @@
       "items": [],
       "antes": "",
       "despues": "",
-      "titulo": "Tu marketing tiene fecha límite",
+      "titulo": "Tu marketing tiene *fecha límite*",
       "texto": "Desde el 1 de diciembre de 2026 rige la nueva ley de protección de datos personales en Chile.",
       "locucion": "",
       "imagen": "Calendario de escritorio junto a un notebook con un dashboard desenfocado."
@@ -20,7 +20,7 @@
       "items": [],
       "antes": "",
       "despues": "",
-      "titulo": "Sin base legal, es infracción",
+      "titulo": "Sin base legal, es _infracción_",
       "texto": "Tratar datos personales sin una base legal válida lo fiscalizará la nueva Agencia de Protección de Datos Personales.",
       "locucion": "",
       "imagen": "Formulario web en una pantalla, vista de cerca."
@@ -37,7 +37,7 @@
       ],
       "antes": "",
       "despues": "",
-      "titulo": "Qué tienes que revisar",
+      "titulo": "Qué tienes que *revisar*",
       "texto": "",
       "locucion": "",
       "imagen": "Mano marcando una casilla en un formulario en una tablet."
@@ -49,7 +49,7 @@
       "items": [],
       "antes": "",
       "despues": "",
-      "titulo": "Máximo por infracción",
+      "titulo": "Máximo _por infracción_",
       "texto": "Y hasta el 4 % de los ingresos si hay reincidencia.",
       "locucion": "",
       "imagen": "Reunión de directorio revisando documentos."
@@ -61,7 +61,7 @@
       "items": [],
       "antes": "",
       "despues": "",
-      "titulo": "Tu empresa responde también por lo que hacen tus proveedores con los datos.",
+      "titulo": "Tu empresa responde también por lo que hacen *tus proveedores* con los datos.",
       "texto": "Ley 21.719",
       "locucion": "",
       "imagen": "Equipo revisando integraciones en varias pantallas."
@@ -73,7 +73,7 @@
       "items": [],
       "antes": "",
       "despues": "",
-      "titulo": "Revisa tu política de privacidad gratis",
+      "titulo": "Revisa tu política de privacidad *gratis*",
       "texto": "Un primer paso concreto antes del 1 de diciembre.",
       "locucion": "",
       "imagen": "Oficina moderna en Santiago con luz natural."

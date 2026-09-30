@@ -17,7 +17,10 @@ Crea imágenes, carruseles y videos cortos para redes sociales que respetan el t
    - `portada`: título grande con etiqueta; `texto`: título y apoyo;
    - `dato`: una cifra protagonista; `lista`: 2 a 4 puntos numerados;
    - `comparacion`: antes y después dibujados como gráfico de barras;
-   - `cita`: frase destacada; `cierre`: llamado a la acción como botón.
+   - `cita`: frase destacada; `cierre`: llamado a la acción como botón;
+   - `persona`: foto de alguien del equipo en tarjeta con el color de la marca y su nombre como sticker.
+
+   Cada lámina además alterna de estilo (oscuro, claro, azul y acento a sangre) para que el carrusel no se vea plano; se puede fijar uno con `estilo`. En los títulos, `*palabra*` se resalta con marcador y `_palabra_` pasa a serif itálica.
 
    Con fondo generado con IA, la foto queda arriba y el texto abajo sobre un degradado del color de la marca.
 6. **Video**: graba cada escena con animaciones de entrada (textos que suben, cifras que aparecen con impulso, barras que crecen, botón que salta, brillos que se desplazan) y las une en un MP4 vertical con transiciones de deslizamiento. Con `--video-simple` usa láminas fijas con zoom suave, que es más rápido. Con `--voz`, ElevenLabs lee el guion de locución y cada escena dura lo necesario para que la frase termine antes del cambio.
@@ -73,7 +76,7 @@ Cada ejecución crea una carpeta en `salida/` con:
 ## Marcas incluidas
 
 - `marcas/ejemplo.yaml`: Café Aurora, una marca ficticia de ejemplo.
-- `marcas/sprint_latam/`: Sprint LATAM, con tono y reglas tomados de sprintlatam.com y los colores, tipografías (Space Grotesk y Plus Jakarta Sans, licencia OFL) y logo del sitio. En `contenidos/sprint_latam/` hay piezas ya escritas que se diseñan con `--pieza`:
+- `marcas/sprint_latam/`: Sprint LATAM, con tono y reglas tomados de sprintlatam.com; los colores y paletas de sus secciones, el logo y las fotos de los fundadores vienen del sitio. Tipografías con licencia OFL: Space Grotesk, Plus Jakarta Sans y JetBrains Mono (las del sitio) e Instrument Serif para los acentos en itálica. En `contenidos/sprint_latam/` hay piezas ya escritas que se diseñan con `--pieza`:
 
 ```bash
 python -m generador --marca marcas/sprint_latam/marca.yaml --pieza contenidos/sprint_latam/carrusel_ley_datos.json --formato carrusel

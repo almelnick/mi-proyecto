@@ -71,13 +71,54 @@ estilo_visual:
   fuente_titulos: Space Grotesk
   fuente_texto: Plus Jakarta Sans
   logo: logo.png
+  fuente_mono: JetBrains Mono
+  fuente_acento: Instrument Serif
   archivos_fuentes:
     Space Grotesk: fuentes/space-grotesk-latin-wght-normal.woff2
     Plus Jakarta Sans: fuentes/plus-jakarta-sans-latin-wght-normal.woff2
+    JetBrains Mono: fuentes/jetbrains-mono-latin-wght-normal.woff2
+    Instrument Serif: fuentes/instrument-serif-latin-400-italic.woff2
+  # Paletas de las secciones del sitio; las láminas las alternan para dar variedad.
+  temas:
+    claro:          # secciones crema (.surface-paper)
+      fondo: "#F8F5EC"
+      texto: "#08121F"
+      secundario: "#465466"
+      acento: "#004F9E"
+      acento_2: "#0089ED"
+      marcador: "#F2F200"
+      marcador_texto: "#040A14"
+      logo_oscuro: true
+    azul:           # secciones azules (.surface-blue)
+      fondo: "#0048A6"
+      texto: "#FBFAF7"
+      secundario: "#D3DEF2"
+      acento: "#F2F200"
+      acento_2: "#4DB3FF"
+    acento:         # amarillo de los botones, a sangre
+      fondo: "#F2F200"
+      texto: "#040A14"
+      secundario: "#2A3340"
+      acento: "#040A14"
+      acento_2: "#0048A6"
+      marcador: "#040A14"
+      marcador_texto: "#F2F200"
+      logo_oscuro: true
   estilo_imagenes: >
     Fotografía editorial corporativa y sobria: equipos trabajando con datos, pantallas con
     dashboards desenfocados, oficinas modernas en Santiago, luz natural, tonos fríos y
     neutros, sin personas mirando a cámara.
+
+# Fotos del equipo tomadas de sprintlatam.com/nosotros (400x400).
+personas:
+  alan-melnick:
+    archivo: personas/alan-melnick.png
+    nombre: Alan Melnick
+    cargo: Cofundador · SEO y SEO con IA
+  rodrigo-ureta:
+    archivo: personas/rodrigo-ureta.png
+    nombre: Rodrigo Ureta
+    cargo: Cofundador y gerente general
 
 voz:
   id_voz: null

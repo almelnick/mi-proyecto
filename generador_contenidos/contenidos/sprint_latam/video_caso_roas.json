@@ -8,7 +8,7 @@
       "items": [],
       "antes": "",
       "despues": "",
-      "titulo": "Solo pautaban anuncios de catálogo",
+      "titulo": "Solo pautaban anuncios de *catálogo*",
       "texto": "",
       "locucion": "Un ecommerce de tecnología solo pautaba anuncios de catálogo en Meta.",
       "imagen": "Productos tecnológicos sobre un escritorio."
@@ -24,7 +24,7 @@
       ],
       "antes": "",
       "despues": "",
-      "titulo": "Cambiamos tres cosas",
+      "titulo": "Cambiamos _tres_ cosas",
       "texto": "",
       "locucion": "Cambiamos tres cosas: ángulos creativos, audiencias lookalike y una estructura de campañas por producto.",
       "imagen": "Pantallas con distintas versiones de un anuncio."
@@ -36,7 +36,7 @@
       "items": [],
       "antes": "3",
       "despues": "10",
-      "titulo": "ROAS en 60 días",
+      "titulo": "ROAS en _60 días_",
       "texto": "Mismo negocio, otra estrategia.",
       "locucion": "En sesenta días, el ROAS pasó de tres a diez.",
       "imagen": "Gráfico de crecimiento en un monitor."
@@ -48,7 +48,7 @@
       "items": [],
       "antes": "",
       "despues": "",
-      "titulo": "¿Tu ROAS se estancó?",
+      "titulo": "¿Tu ROAS se *estancó*?",
       "texto": "Revisamos tu cuenta y te decimos por dónde partir.",
       "locucion": "¿Tu ROAS se estancó? Conversemos en sprintlatam punto com.",
       "imagen": "Oficina moderna en Santiago."

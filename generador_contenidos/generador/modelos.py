@@ -8,7 +8,8 @@ Formato = Literal["imagen", "carrusel", "video"]
 Red = Literal["instagram", "linkedin", "tiktok", "facebook"]
 
 
-TipoLamina = Literal["portada", "texto", "dato", "lista", "comparacion", "cita", "cierre"]
+TipoLamina = Literal["portada", "texto", "dato", "lista", "comparacion", "cita", "cierre", "persona"]
+Estilo = Literal["auto", "oscuro", "claro", "azul", "acento"]
 
 
 class Slide(BaseModel):
@@ -19,16 +20,27 @@ class Slide(BaseModel):
             "texto: título y texto de apoyo. dato: una cifra protagonista en `dato`. "
             "lista: 2 a 4 puntos breves en `items`. comparacion: un antes y un después numéricos "
             "en `antes` y `despues`, se dibuja como gráfico de barras. cita: una frase destacada en "
-            "`titulo`. cierre: última lámina con el llamado a la acción. Varía los tipos para que "
-            "la pieza no sea solo texto."
+            "`titulo`. cierre: última lámina con el llamado a la acción. persona: foto de una de las "
+            "`personas_disponibles` de la marca (clave en `persona`) con una frase suya en `titulo`. "
+            "Varía los tipos para que la pieza no sea solo texto."
         ),
     )
+    estilo: Estilo = Field(
+        default="auto",
+        description="Paleta de la lámina. auto alterna oscuro, claro, azul y acento para dar variedad.",
+    )
+    persona: str = Field(default="", description="Solo tipo persona: clave de la persona a mostrar.")
     etiqueta: str = Field(default="", description="Etiqueta corta sobre el título (2 a 4 palabras). Opcional.")
     dato: str = Field(default="", description="Solo tipo dato: la cifra grande, por ejemplo '20.000 UTM'.")
     items: list[str] = Field(default_factory=list, description="Solo tipo lista: 2 a 4 puntos de máximo 8 palabras.")
     antes: str = Field(default="", description="Solo tipo comparacion: valor inicial con su unidad, por ejemplo '3'.")
     despues: str = Field(default="", description="Solo tipo comparacion: valor final, por ejemplo '10'.")
-    titulo: str = Field(description="Texto grande de la lámina o escena. Máximo 8 palabras.")
+    titulo: str = Field(
+        description=(
+            "Texto grande de la lámina o escena. Máximo 8 palabras. Marca una o dos palabras clave "
+            "con *asteriscos* para resaltarlas o con _guiones bajos_ para ponerlas en itálica."
+        )
+    )
     texto: str = Field(description="Texto de apoyo. Máximo 25 palabras. Puede ir vacío.")
     locucion: str = Field(
         description="Solo para video: lo que dice la voz en off en esta escena. Vacío en otros formatos."

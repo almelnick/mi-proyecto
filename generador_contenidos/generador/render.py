@@ -11,9 +11,10 @@ from pathlib import Path
 
 import imageio_ffmpeg
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from markupsafe import Markup, escape
 from playwright.sync_api import sync_playwright
 
-from .marca import Marca
+from .marca import EstiloVisual, Marca, Tema
 from .modelos import Formato, Pieza
 
 PLANTILLAS = Path(__file__).parent / "plantillas"
@@ -29,6 +30,63 @@ def _embebido(ruta: Path | None) -> str | None:
         return None
     tipo = mimetypes.guess_type(ruta.name)[0] or ("font/woff2" if ruta.suffix == ".woff2" else "image/png")
     return f"data:{tipo};base64," + base64.b64encode(ruta.read_bytes()).decode()
+
+
+# Estilos que se alternan según el tipo de lámina cuando la lámina pide "auto".
+ROTACION = {
+    "portada": ["oscuro"],
+    "texto": ["claro", "azul"],
+    "dato": ["acento", "azul", "claro", "oscuro"],
+    "lista": ["claro", "oscuro"],
+    "comparacion": ["oscuro", "claro"],
+    "cita": ["azul", "claro"],
+    "cierre": ["acento"],
+    "persona": ["oscuro", "azul"],
+}
+
+
+def temas(e: EstiloVisual) -> dict[str, Tema]:
+    """Paletas disponibles: las del kit de marca y, si faltan, derivadas de sus colores."""
+    a2 = e.color_acento_2 or e.color_acento
+    derivados = {
+        "oscuro": Tema(fondo=e.color_fondo, texto=e.color_texto, secundario=e.color_secundario,
+                       acento=e.color_acento, acento_2=a2),
+        "claro": Tema(fondo=e.color_texto, texto=e.color_fondo, secundario=e.color_fondo + "B3",
+                      acento=a2, acento_2=e.color_acento, marcador=e.color_acento,
+                      marcador_texto=e.color_fondo, logo_oscuro=True),
+        "azul": Tema(fondo=a2, texto=e.color_texto, secundario=e.color_texto + "CC",
+                     acento=e.color_acento, acento_2=e.color_acento),
+        "acento": Tema(fondo=e.color_acento, texto=e.color_fondo, secundario=e.color_fondo + "CC",
+                       acento=e.color_fondo, acento_2=e.color_fondo, marcador=e.color_fondo,
+                       marcador_texto=e.color_acento, logo_oscuro=True),
+    }
+    return derivados | e.temas
+
+
+def estilos_de(pieza: Pieza) -> list[str]:
+    """Elige el estilo de cada lámina, alternando para que dos seguidas no se repitan."""
+    elegidos: list[str] = []
+    usos: dict[str, int] = {}
+    for slide in pieza.slides:
+        if slide.estilo != "auto":
+            elegidos.append(slide.estilo)
+            continue
+        opciones = ROTACION.get(slide.tipo, ["oscuro"])
+        n = usos.get(slide.tipo, 0)
+        usos[slide.tipo] = n + 1
+        estilo = opciones[n % len(opciones)]
+        if elegidos and estilo == elegidos[-1] and len(opciones) > 1:
+            estilo = opciones[(n + 1) % len(opciones)]
+        elegidos.append(estilo)
+    return elegidos
+
+
+def _marcar(texto: str) -> Markup:
+    """*palabra* se resalta con marcador y _palabra_ pasa a serif itálica."""
+    html = str(escape(texto))
+    html = re.sub(r"\*(.+?)\*", r"<mark>\1</mark>", html)
+    html = re.sub(r"(?<![\w/])_(.+?)_(?![\w/])", r'<i class="serif">\1</i>', html)
+    return Markup(html)
 
 
 def _numero(texto: str) -> float | None:
@@ -62,7 +120,9 @@ def _html(
 ) -> str:
     ancho, alto = TAMANOS[formato]
     slide = pieza.slides[indice - 1]
-    largo = len(slide.titulo)
+    largo = len(re.sub(r"[*_]", "", slide.titulo))
+    e = marca.estilo_visual
+    tema = temas(e)[estilos_de(pieza)[indice - 1]]
     alto_grafico = 420 if formato != "video" else 700
     return _entorno.get_template("lamina.html").render(
         ancho=ancho,
@@ -77,7 +137,12 @@ def _html(
         es_carrusel=formato == "carrusel",
         animar=animar,
         duracion=duracion,
-        e=marca.estilo_visual,
+        e=e,
+        t=tema,
+        titulo=_marcar(slide.titulo),
+        texto=_marcar(slide.texto),
+        foto_persona=_embebido(marca.ruta_persona(slide.persona)) if slide.tipo == "persona" else None,
+        persona=marca.personas.get(slide.persona),
         marca=marca.nombre,
         logo=_embebido(marca.ruta_logo()),
         fuentes={familia: _embebido(ruta) for familia, ruta in marca.rutas_fuentes().items()},

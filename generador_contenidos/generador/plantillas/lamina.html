@@ -2,73 +2,123 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-{% set a1 = e.color_acento %}
-{% set a2 = e.color_acento_2 or e.color_acento %}
+{# t: paleta de esta lámina (oscuro, claro, azul o acento); e: kit visual de la marca. #}
+{% set a1 = t.acento %}
+{% set a2 = t.acento_2 or t.acento %}
+{% set marcador = t.marcador or a1 %}
+{% set marcador_texto = t.marcador_texto or t.fondo %}
+{% set titulos = ('"' ~ e.fuente_titulos ~ '", Arial, sans-serif') | safe %}
+{% set mono = (('"' ~ e.fuente_mono ~ '", ' if e.fuente_mono else '') ~ 'ui-monospace, "Courier New", monospace') | safe %}
+{% set serif = (('"' ~ e.fuente_acento ~ '", ' if e.fuente_acento else '') ~ 'Georgia, serif') | safe %}
+{% set oscuro_de_fondo = not t.logo_oscuro %}
 <style>
   {% for familia, archivo in fuentes.items() %}
-  @font-face { font-family: "{{ familia }}"; src: url("{{ archivo }}"); font-weight: 100 900; }
+  @font-face { font-family: "{{ familia }}"; src: url("{{ archivo }}"); font-weight: 100 900; {% if 'Serif' in familia %}font-style: italic;{% endif %} }
   {% endfor %}
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: {{ ancho }}px; height: {{ alto }}px; }
   body {
-    background: {{ e.color_fondo }};
-    color: {{ e.color_texto }};
+    background: {{ t.fondo }};
+    color: {{ t.texto }};
     font-family: "{{ e.fuente_texto }}", "Helvetica Neue", Arial, sans-serif;
     position: relative;
     overflow: hidden;
   }
 
-  /* Decoración de fondo: brillos de color y trama de puntos. */
+  /* ---------- Decoración ---------- */
   .brillo { position: absolute; border-radius: 50%; filter: blur(140px); }
-  .brillo.uno { width: 760px; height: 760px; right: -260px; top: -260px; background: {{ a2 }}; opacity: .45; }
-  .brillo.dos { width: 560px; height: 560px; left: -260px; bottom: -220px; background: {{ a1 }}; opacity: .10; }
+  .brillo.uno { width: 780px; height: 780px; right: -280px; top: -280px; background: {{ a2 }}; opacity: {{ 0.5 if oscuro_de_fondo else 0 }}; }
+  .brillo.dos { width: 560px; height: 560px; left: -260px; bottom: -220px; background: {{ a1 }}; opacity: {{ 0.12 if oscuro_de_fondo else 0 }}; }
   .trama {
     position: absolute; inset: 0;
-    background-image: radial-gradient({{ e.color_texto }}22 2px, transparent 2px);
+    background-image: radial-gradient({{ t.texto }}26 2px, transparent 2px);
     background-size: 40px 40px;
-    -webkit-mask-image: linear-gradient(135deg, #000 0%, transparent 55%);
-            mask-image: linear-gradient(135deg, #000 0%, transparent 55%);
+    -webkit-mask-image: linear-gradient(135deg, #000 0%, transparent 60%);
+            mask-image: linear-gradient(135deg, #000 0%, transparent 60%);
+  }
+  .anillo {
+    position: absolute; width: 900px; height: 900px; right: -420px; bottom: -380px;
+    border: 3px solid {{ a1 }}; border-radius: 50%; opacity: .35;
+  }
+  .anillo.dos { width: 620px; height: 620px; right: -280px; bottom: -240px; opacity: .25; }
+  .rayas {
+    position: absolute; inset: 0; opacity: .08;
+    background: repeating-linear-gradient(-45deg, {{ t.texto }} 0 2px, transparent 2px 26px);
+  }
+  .grano {
+    position: absolute; inset: 0; opacity: .09; mix-blend-mode: overlay; pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   }
   .fondo { position: absolute; inset: 0; background: url("{{ fondo }}") center / cover no-repeat; }
   .velo {
     position: absolute; inset: 0;
-    background: linear-gradient(180deg, {{ e.color_fondo }}00 0%, {{ e.color_fondo }}00 28%, {{ e.color_fondo }}D9 60%, {{ e.color_fondo }}F7 100%);
+    background: linear-gradient(180deg, {{ t.fondo }}00 0%, {{ t.fondo }}00 28%, {{ t.fondo }}D9 60%, {{ t.fondo }}F7 100%);
   }
   .marca-agua {
-    position: absolute; right: 60px; bottom: 120px;
-    font-family: "{{ e.fuente_titulos }}", Arial, sans-serif; font-weight: 800;
-    font-size: 420px; line-height: 1; letter-spacing: -20px;
-    color: transparent; -webkit-text-stroke: 3px {{ e.color_texto }}14;
+    position: absolute; right: 50px; bottom: 110px;
+    font-family: {{ titulos }}; font-weight: 700;
+    font-size: 440px; line-height: 1; letter-spacing: -24px;
+    color: transparent; -webkit-text-stroke: 3px {{ t.texto }}1C;
   }
 
+  /* ---------- Cabecera editorial ---------- */
+  .cabecera {
+    position: absolute; left: {{ margen }}px; right: {{ margen }}px; top: 64px;
+    display: flex; justify-content: space-between;
+    font-family: {{ mono }}; font-size: 24px; letter-spacing: 2px; text-transform: uppercase;
+    color: {{ t.texto }}; opacity: .7;
+    padding-bottom: 20px; border-bottom: 2px solid {{ t.texto }}26;
+  }
+
+  /* ---------- Tipografía ---------- */
   .contenido {
     position: absolute; inset: 0;
-    padding: {{ margen }}px {{ margen }}px {{ margen + 110 }}px;
+    padding: {{ margen + 70 }}px {{ margen }}px {{ margen + 110 }}px;
     display: flex; flex-direction: column; justify-content: {{ 'flex-end' if fondo else 'center' }};
   }
   .etiqueta {
     align-self: flex-start;
     border: 2px solid {{ a1 }}; color: {{ a1 }};
     border-radius: 999px; padding: 12px 26px; margin-bottom: 44px;
-    font-size: 26px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    font-family: {{ mono }}; font-size: 24px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  }
+  .etiqueta.sticker {
+    background: {{ a1 }}; color: {{ t.fondo }}; border-color: {{ a1 }};
+    transform: rotate(-3deg); box-shadow: 8px 8px 0 {{ t.texto }}22;
   }
   h1 {
-    font-family: "{{ e.fuente_titulos }}", Arial, sans-serif;
-    font-size: {{ tam_titulo }}px; line-height: 1.02; font-weight: 800; letter-spacing: -2px;
+    font-family: {{ titulos }};
+    font-size: {{ tam_titulo }}px; line-height: 1.14; font-weight: 700; letter-spacing: -3px;
   }
-  h1 em { font-style: normal; color: {{ a2 }}; }
+  h1.gigante { font-size: {{ (tam_titulo * 1.12) | int }}px; line-height: 1.12; letter-spacing: -3px; text-transform: uppercase; }
+  mark {
+    background: {{ marcador }}; color: {{ marcador_texto }};
+    padding: 0 .08em; margin: 0 .04em; border-radius: .08em;
+    box-decoration-break: clone; -webkit-box-decoration-break: clone;
+  }
+  i.serif {
+    font-family: {{ serif }}; font-style: italic; font-weight: 400;
+    letter-spacing: -1px; text-transform: none; color: {{ a2 if oscuro_de_fondo else a1 }};
+  }
+  h1.gigante i.serif { font-size: 1.08em; }
   .subrayado { width: 150px; height: 10px; background: {{ a1 }}; margin: 44px 0 40px; border-radius: 6px; }
   p.apoyo {
-    font-size: {{ tam_texto }}px; line-height: 1.4; color: {{ e.color_secundario }};
+    font-size: {{ tam_texto }}px; line-height: 1.4; color: {{ t.secundario }};
     max-width: 92%; margin-top: 36px;
   }
+  p.apoyo mark { font-weight: 700; }
   p.apoyo.linea { border-left: 6px solid {{ a1 }}; padding-left: 30px; }
 
-  /* Dato */
-  .dato {
-    font-family: "{{ e.fuente_titulos }}", Arial, sans-serif; font-weight: 900;
-    font-size: {{ tam_dato }}px; line-height: .95; letter-spacing: -6px; margin-bottom: 30px;
-    color: {{ a1 }};
+  /* Dato: cifra gigante con eco en contorno */
+  .dato-caja { position: relative; margin-bottom: 30px; }
+  .dato, .dato-eco {
+    font-family: {{ titulos }}; font-weight: 700;
+    font-size: {{ tam_dato }}px; line-height: .9; letter-spacing: -8px;
+  }
+  .dato { position: relative; color: {{ a1 }}; }
+  .dato-eco {
+    position: absolute; left: 14px; top: 14px;
+    color: transparent; -webkit-text-stroke: 3px {{ t.texto }}55;
   }
   .dato-contenedor h1 { font-size: {{ (tam_titulo * 0.62) | int }}px; }
 
@@ -77,49 +127,71 @@
   ol.items li {
     display: flex; align-items: center; gap: 34px;
     font-size: 44px; line-height: 1.25; font-weight: 600;
-    padding: 30px 0; border-top: 2px solid {{ e.color_texto }}1F;
+    padding: 30px 0; border-top: 2px solid {{ t.texto }}26;
   }
-  ol.items li:last-child { border-bottom: 2px solid {{ e.color_texto }}1F; }
+  ol.items li:last-child { border-bottom: 2px solid {{ t.texto }}26; }
   ol.items .num {
-    flex: none; width: 76px; height: 76px; border-radius: 50%;
-    background: {{ a1 }}; color: {{ e.color_fondo }};
-    display: flex; align-items: center; justify-content: center;
-    font-size: 34px; font-weight: 800;
+    flex: none; font-family: {{ mono }}; font-size: 30px; font-weight: 700;
+    color: {{ t.fondo }}; background: {{ a1 }};
+    padding: 10px 16px; border-radius: 10px;
   }
 
   /* Comparación */
   .grafico { display: flex; align-items: flex-end; gap: 70px; height: {{ alto_grafico + 170 }}px; margin-top: 60px; }
   .columna { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
-  .valor { font-family: "{{ e.fuente_titulos }}", Arial, sans-serif; font-weight: 900; font-size: 96px; margin-bottom: 18px; }
+  .valor { font-family: {{ titulos }}; font-weight: 700; font-size: 110px; letter-spacing: -4px; margin-bottom: 18px; }
   .barra { width: 100%; border-radius: 22px 22px 6px 6px; }
-  .barra.antes { background: {{ e.color_secundario }}40; }
+  .barra.antes { background: {{ t.texto }}2E; }
   .barra.despues { background: {{ a1 }}; box-shadow: 0 0 90px {{ a1 }}55; }
-  .rotulo { margin-top: 22px; font-size: 30px; letter-spacing: 3px; text-transform: uppercase; color: {{ e.color_secundario }}; }
+  .rotulo { margin-top: 22px; font-family: {{ mono }}; font-size: 26px; letter-spacing: 3px; text-transform: uppercase; color: {{ t.secundario }}; }
   .flecha { align-self: center; font-size: 90px; color: {{ a1 }}; margin-bottom: 120px; }
 
   /* Cita */
-  .comillas { font-family: Georgia, serif; font-size: 340px; line-height: .6; color: {{ a1 }}; height: 170px; }
-  .cita h1 { font-weight: 700; letter-spacing: -1px; }
+  .comillas { font-family: {{ serif }}; font-style: italic; font-size: 360px; line-height: .6; color: {{ a1 }}; height: 170px; }
+  .cita h1 { letter-spacing: -2px; }
+  .cita p.apoyo { font-family: {{ mono }}; font-size: 28px; letter-spacing: 2px; text-transform: uppercase; }
+
+  /* Persona: foto chica del sitio, en tarjeta con duotono de la marca */
+  .retrato {
+    position: relative; width: {{ 600 if alto > 1400 else 470 }}px; aspect-ratio: 1; margin-bottom: 56px;
+    border-radius: 36px; overflow: hidden; box-shadow: 26px 26px 0 {{ a1 }};
+  }
+  .retrato img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    filter: grayscale(1) contrast(1.2) brightness(1.05);
+  }
+  .retrato .tinte { position: absolute; inset: 0; background: {{ a2 }}; mix-blend-mode: multiply; opacity: .5; }
+  .persona-nombre {
+    position: absolute; left: -12px; bottom: 30px; z-index: 2;
+    background: {{ a1 }}; color: {{ t.fondo }};
+    font-family: {{ titulos }}; font-weight: 700; font-size: 38px;
+    padding: 14px 26px; transform: rotate(-3deg);
+  }
+  .persona-nombre small { display: block; font-family: {{ mono }}; font-weight: 500; font-size: 20px; letter-spacing: 1px; text-transform: uppercase; }
+  .tarjeta { position: relative; align-self: flex-start; }
+  .persona h1 { font-size: {{ (tam_titulo * 0.8) | int }}px; }
 
   /* Cierre */
   .boton {
     align-self: flex-start; margin-top: 60px;
-    background: {{ a1 }}; color: {{ e.color_fondo }};
+    background: {{ a1 }}; color: {{ t.fondo }};
     font-size: {{ 40 if cta | length <= 30 else 32 }}px; font-weight: 800; padding: 30px 50px; border-radius: 999px;
     white-space: nowrap; max-width: 100%;
     box-shadow: 0 20px 60px {{ a1 }}55;
   }
 
+  /* Pie */
   .pie {
     position: absolute; left: {{ margen }}px; right: {{ margen }}px; bottom: 64px;
     display: flex; justify-content: space-between; align-items: center;
-    font-size: 30px; font-weight: 700; color: {{ e.color_texto }};
+    font-size: 30px; font-weight: 700; color: {{ t.texto }};
   }
-  .pie img { height: 56px; }
-  .pie .desliza { color: {{ a1 }}; letter-spacing: 2px; font-size: 26px; text-transform: uppercase; }
+  .pie img { height: 56px; {% if t.logo_oscuro %}filter: brightness(0);{% endif %} }
+  .pie .desliza { font-family: {{ mono }}; color: {{ a1 }}; letter-spacing: 2px; font-size: 24px; text-transform: uppercase; }
   .puntos { display: flex; gap: 12px; }
-  .puntos span { width: 14px; height: 14px; border-radius: 50%; background: {{ e.color_texto }}; opacity: .25; }
+  .puntos span { width: 14px; height: 14px; border-radius: 50%; background: {{ t.texto }}; opacity: .25; }
   .puntos span.activo { background: {{ a1 }}; opacity: 1; width: 42px; border-radius: 8px; }
+
   {% if animar %}
   /* Animaciones de entrada para video: se capturan cuadro a cuadro. */
   @keyframes entra { from { opacity: 0; transform: translateY(70px); } to { opacity: 1; transform: none; } }
@@ -127,18 +199,35 @@
   @keyframes crece { from { transform: scaleX(0); } to { transform: scaleX(1); } }
   @keyframes sube { from { transform: scaleY(0); } to { transform: scaleY(1); } }
   @keyframes pop { 0% { opacity: 0; transform: scale(.55); } 70% { opacity: 1; transform: scale(1.06); } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes sello { 0% { opacity: 0; transform: rotate(-12deg) scale(1.6); } 100% { opacity: 1; transform: rotate(-3deg) scale(1); } }
   @keyframes deriva { from { transform: translate(0, 0); } to { transform: translate(-220px, 180px); } }
   @keyframes deriva2 { from { transform: translate(0, 0); } to { transform: translate(160px, -120px); } }
+  @keyframes gira { from { transform: rotate(0); } to { transform: rotate(25deg); } }
   @keyframes acerca { from { transform: scale(1); } to { transform: scale(1.1); } }
+  @keyframes resalta {
+    from { background-size: 0% 100%; color: {{ t.texto }}; }
+    to { background-size: 100% 100%; color: {{ marcador_texto }}; }
+  }
   .brillo.uno { animation: deriva {{ duracion }}s linear forwards; }
   .brillo.dos { animation: deriva2 {{ duracion }}s linear forwards; }
+  .anillo { animation: gira {{ duracion }}s linear forwards; transform-origin: 30% 30%; }
+  .retrato { opacity: 0; animation: pop .9s cubic-bezier(.2,.8,.2,1) .1s forwards; }
+  .retrato img { animation: acerca {{ duracion }}s linear forwards; }
   .fondo { animation: acerca {{ duracion }}s linear forwards; }
+  .cabecera { opacity: 0; animation: aparece .6s ease-out forwards; }
   .marca-agua { opacity: 0; animation: aparece 1.2s ease-out .5s forwards; }
   .etiqueta { opacity: 0; animation: entra .7s cubic-bezier(.2,.8,.2,1) .1s forwards; }
+  .etiqueta.sticker { animation: sello .6s cubic-bezier(.2,.8,.2,1) .1s forwards; }
   h1 { opacity: 0; animation: entra .9s cubic-bezier(.2,.8,.2,1) .3s forwards; }
+  mark {
+    background: linear-gradient({{ marcador }}, {{ marcador }}) no-repeat left / 0% 100%;
+    color: {{ t.texto }};
+    animation: resalta .6s cubic-bezier(.2,.8,.2,1) 1.1s forwards;
+  }
   .subrayado { transform-origin: left; transform: scaleX(0); animation: crece .7s cubic-bezier(.2,.8,.2,1) .9s forwards; }
   p.apoyo { opacity: 0; animation: entra .9s cubic-bezier(.2,.8,.2,1) .9s forwards; }
   .dato { opacity: 0; transform-origin: left bottom; animation: pop 1s cubic-bezier(.2,.8,.2,1) .2s forwards; }
+  .dato-eco { opacity: 0; animation: aparece .8s ease-out .7s forwards; }
   .dato-contenedor h1 { animation-delay: .8s; }
   .dato-contenedor p.apoyo { animation-delay: 1.2s; }
   ol.items li { opacity: 0; animation: entra .7s cubic-bezier(.2,.8,.2,1) forwards; }
@@ -153,6 +242,7 @@
   .comillas { opacity: 0; transform-origin: left top; animation: pop .8s cubic-bezier(.2,.8,.2,1) .1s forwards; }
   .cita h1 { animation-delay: .5s; }
   .cita p.apoyo { animation-delay: 1.1s; }
+  .persona-nombre { opacity: 0; animation: sello .6s cubic-bezier(.2,.8,.2,1) .7s forwards; }
   .boton { opacity: 0; animation: pop .8s cubic-bezier(.2,.8,.2,1) 1.2s forwards; }
   {% endif %}
 </style>
@@ -160,34 +250,55 @@
 <body>
   {% if fondo %}
     <div class="fondo"></div><div class="velo"></div>
-  {% else %}
+  {% elif oscuro_de_fondo %}
     <div class="brillo uno"></div><div class="brillo dos"></div><div class="trama"></div>
     {% if total > 1 and slide.tipo not in ["portada", "dato", "comparacion"] %}<div class="marca-agua">{{ "%02d" % indice }}</div>{% endif %}
+  {% elif t.fondo == e.color_acento %}
+    <div class="rayas"></div>
+  {% else %}
+    <div class="anillo"></div><div class="anillo dos"></div>
+  {% endif %}
+  <div class="grano"></div>
+
+  {% if true %}
+  <div class="cabecera">
+    <span>{{ marca }}{% if slide.etiqueta and slide.tipo != "portada" %} — {{ slide.etiqueta }}{% endif %}</span>
+    {% if total > 1 %}<span>{{ "%02d" % indice }} / {{ "%02d" % total }}</span>{% endif %}
+  </div>
   {% endif %}
 
   <div class="contenido">
-    {% if slide.etiqueta %}<div class="etiqueta">{{ slide.etiqueta }}</div>{% endif %}
-
     {% if slide.tipo == "portada" %}
-      <h1>{{ slide.titulo }}</h1>
+      {% if slide.etiqueta %}<div class="etiqueta sticker">{{ slide.etiqueta }}</div>{% endif %}
+      <h1 class="gigante">{{ titulo }}</h1>
       <div class="subrayado"></div>
-      {% if slide.texto %}<p class="apoyo" style="margin-top:0">{{ slide.texto }}</p>{% endif %}
+      {% if slide.texto %}<p class="apoyo" style="margin-top:0">{{ texto }}</p>{% endif %}
+
+    {% elif slide.tipo == "persona" %}
+      <div class="persona">
+        <div class="tarjeta">
+          {% if foto_persona %}<div class="retrato"><img src="{{ foto_persona }}" alt=""><div class="tinte"></div></div>{% endif %}
+          {% if persona %}<div class="persona-nombre">{{ persona.nombre }}{% if persona.cargo %}<small>{{ persona.cargo }}</small>{% endif %}</div>{% endif %}
+        </div>
+        <h1>{{ titulo }}</h1>
+        {% if slide.texto %}<p class="apoyo">{{ texto }}</p>{% endif %}
+      </div>
 
     {% elif slide.tipo == "dato" and slide.dato %}
       <div class="dato-contenedor">
-        <div class="dato">{{ slide.dato }}</div>
-        <h1>{{ slide.titulo }}</h1>
-        {% if slide.texto %}<p class="apoyo linea">{{ slide.texto }}</p>{% endif %}
+        <div class="dato-caja"><div class="dato-eco">{{ slide.dato }}</div><div class="dato">{{ slide.dato }}</div></div>
+        <h1>{{ titulo }}</h1>
+        {% if slide.texto %}<p class="apoyo linea">{{ texto }}</p>{% endif %}
       </div>
 
     {% elif slide.tipo == "lista" and slide.items %}
-      <h1 style="font-size: {{ (tam_titulo * 0.72) | int }}px">{{ slide.titulo }}</h1>
+      <h1 style="font-size: {{ (tam_titulo * 0.72) | int }}px">{{ titulo }}</h1>
       <ol class="items">
-        {% for item in slide.items %}<li style="animation-delay: {{ '%.2f' % (0.7 + loop.index0 * 0.35) }}s"><span class="num">{{ loop.index }}</span><span>{{ item }}</span></li>{% endfor %}
+        {% for item in slide.items %}<li style="animation-delay: {{ '%.2f' % (0.7 + loop.index0 * 0.35) }}s"><span class="num">{{ "%02d" % loop.index }}</span><span>{{ item }}</span></li>{% endfor %}
       </ol>
 
     {% elif slide.tipo == "comparacion" and barras %}
-      <h1 style="font-size: {{ (tam_titulo * 0.72) | int }}px">{{ slide.titulo }}</h1>
+      <h1 style="font-size: {{ (tam_titulo * 0.72) | int }}px">{{ titulo }}</h1>
       <div class="grafico">
         <div class="columna">
           <div class="valor">{{ slide.antes }}</div>
@@ -201,23 +312,23 @@
           <div class="rotulo">Después</div>
         </div>
       </div>
-      {% if slide.texto %}<p class="apoyo">{{ slide.texto }}</p>{% endif %}
+      {% if slide.texto %}<p class="apoyo">{{ texto }}</p>{% endif %}
 
     {% elif slide.tipo == "cita" %}
       <div class="cita">
         <div class="comillas">“</div>
-        <h1>{{ slide.titulo }}</h1>
-        {% if slide.texto %}<p class="apoyo">— {{ slide.texto }}</p>{% endif %}
+        <h1>{{ titulo }}</h1>
+        {% if slide.texto %}<p class="apoyo">— {{ texto }}</p>{% endif %}
       </div>
 
     {% elif slide.tipo == "cierre" %}
-      <h1>{{ slide.titulo }}</h1>
-      {% if slide.texto %}<p class="apoyo">{{ slide.texto }}</p>{% endif %}
+      <h1 class="gigante" style="font-size: {{ tam_titulo }}px">{{ titulo }}</h1>
+      {% if slide.texto %}<p class="apoyo">{{ texto }}</p>{% endif %}
       <div class="boton">{{ cta }} →</div>
 
     {% else %}
-      <h1>{{ slide.titulo }}</h1>
-      {% if slide.texto %}<p class="apoyo linea">{{ slide.texto }}</p>{% endif %}
+      <h1>{{ titulo }}</h1>
+      {% if slide.texto %}<p class="apoyo linea">{{ texto }}</p>{% endif %}
     {% endif %}
   </div>
 
