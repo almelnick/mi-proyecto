@@ -1,0 +1,22 @@
+# Ficha del negocio: Jev la lee para decidir relevancia, servicio y etapa de cada keyword.
+# Mientras más concreta la descripción de cada servicio, mejor clasifica.
+nombre: Sprint LATAM
+sitio: sprintlatam.com
+pais: Chile
+descripcion: >
+  Agencia de marketing digital en Santiago de Chile. Trabaja con empresas medianas y grandes
+  que quieren más leads y ventas medibles. Combina performance (Google Ads, Meta Ads), SEO y
+  posicionamiento en motores de IA (GEO), con reportes de resultados en dinero, no en likes.
+clientes_ideales: >
+  Gerentes de marketing, dueños y equipos comerciales de empresas en Chile y Latinoamérica que
+  contratan una agencia. No son estudiantes ni personas buscando empleo o cursos.
+servicios:
+  seo: Posicionamiento web en Google (SEO técnico, contenidos, link building, SEO local).
+  geo: Posicionamiento en motores de IA como ChatGPT, Gemini y AI Overviews (GEO / AEO).
+  google_ads: Gestión de campañas de Google Ads (búsqueda, Performance Max, YouTube).
+  meta_ads: Gestión de campañas en Meta Ads (Facebook e Instagram).
+  agencia_integral: Servicio de agencia de marketing digital completa (estrategia, medios y contenidos).
+competidores_conocidos:
+  - seoluciones
+  - interamplify
+  - onza
