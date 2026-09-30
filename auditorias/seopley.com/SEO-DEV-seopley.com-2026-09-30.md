@@ -197,7 +197,7 @@ La prueba recibió la verificación anti-bots, así que no se sabe qué responde
 
 ---
 
-### Datos de contexto (Ubersuggest, Chile, septiembre 2026)
+## Datos de contexto (Ubersuggest, Chile, septiembre 2026)
 - Autoridad de dominio **4**, **76 backlinks** de **26 dominios** (44 nofollow).
 - Tráfico orgánico estimado: **11 visitas/mes**, 10 keywords. El sitio empezó a rankear en junio 2026.
 - Keywords visibles en Chile: "keyword research" (#32, 1.000 búsquedas/mes) y "overviews" (#26, 590).
